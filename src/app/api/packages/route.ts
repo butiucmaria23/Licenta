@@ -39,7 +39,8 @@ export async function GET(request: NextRequest) {
     });
 
     return NextResponse.json(packages);
-  } catch {
+  } catch (error) {
+    console.error("GET Packages Error:", error);
     return NextResponse.json(
       { error: "Eroare la încărcarea pachetelor" },
       { status: 500 }
@@ -72,7 +73,8 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json(pkg, { status: 201 });
-  } catch {
+  } catch (error) {
+    console.error("POST Packages Error:", error);
     return NextResponse.json(
       { error: "Eroare la crearea pachetului" },
       { status: 500 }

@@ -44,7 +44,8 @@ export async function POST(request: NextRequest) {
       token,
       user: { id: user.id, name: user.name, email: user.email, role: user.role },
     });
-  } catch {
+  } catch (error) {
+    console.error("Login Error:", error);
     return NextResponse.json(
       { error: "Eroare internă a serverului" },
       { status: 500 }

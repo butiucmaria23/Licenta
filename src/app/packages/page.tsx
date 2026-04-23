@@ -30,13 +30,17 @@ export default function PackagesPage() {
 
   useEffect(() => { fetchPackages(); }, []);
 
-  const fetchPackages = async (searchTerm?: string) => {
+  const fetchPackages = async (options?: { searchStr?: string, min?: string, max?: string }) => {
     setLoading(true);
     const params = new URLSearchParams();
-    const s = searchTerm ?? search;
+    const s = options?.searchStr ?? search;
+    const minP = options?.min ?? minPrice;
+    const maxP = options?.max ?? maxPrice;
+    
     if (s) params.set("search", s);
-    if (minPrice) params.set("minPrice", minPrice);
-    if (maxPrice) params.set("maxPrice", maxPrice);
+    if (minP) params.set("minPrice", minP);
+    if (maxP) params.set("maxPrice", maxP);
+    
     try {
       const res = await fetch(`/api/packages?${params}`);
       const data = await res.json();
@@ -49,7 +53,7 @@ export default function PackagesPage() {
 
   const clearFilters = () => {
     setSearch(""); setMinPrice(""); setMaxPrice("");
-    setTimeout(() => fetchPackages(""), 0);
+    fetchPackages({ searchStr: "", min: "", max: "" });
   };
 
   const locale = language === "ro" ? "ro-RO" : "en-US";

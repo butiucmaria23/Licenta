@@ -14,14 +14,17 @@ export async function GET(request: NextRequest) {
 
     if (search) {
       where.OR = [
-        { title: { contains: search } },
-        { destination: { contains: search } },
-        { description: { contains: search } },
+        { title: { contains: search, mode: "insensitive" } },
+        { titleEn: { contains: search, mode: "insensitive" } },
+        { destination: { contains: search, mode: "insensitive" } },
+        { destinationEn: { contains: search, mode: "insensitive" } },
+        { description: { contains: search, mode: "insensitive" } },
+        { descriptionEn: { contains: search, mode: "insensitive" } },
       ];
     }
 
     if (destination) {
-      where.destination = { contains: destination };
+      where.destination = { contains: destination, mode: "insensitive" };
     }
 
     if (minPrice || maxPrice) {

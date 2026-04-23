@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import {
@@ -143,15 +144,20 @@ export default function AdminDashboard() {
         {stats && (
           <>
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <motion.div 
+              initial="hidden" animate="visible"
+              variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } }}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8"
+            >
               {[
                 { label: t("admin.totalPackages"), value: stats.totalPackages, icon: "", color: "emerald", darkColor: "emerald" },
                 { label: t("admin.totalReservations"), value: stats.totalReservations, icon: "", color: "cyan", darkColor: "cyan" },
                 { label: t("admin.totalUsers"), value: stats.totalUsers, icon: "", color: "violet", darkColor: "violet" },
                 { label: t("admin.totalRevenue"), value: `€${stats.totalRevenue.toFixed(2)}`, icon: "", color: "amber", darkColor: "amber" },
               ].map((s, i) => (
-                <div
+                <motion.div
                   key={i}
+                  variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
                   className="bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-white/10 p-6 hover:border-slate-300 dark:hover:border-white/20 transition-all shadow-sm dark:shadow-none"
                 >
                   <div className="flex items-center justify-between mb-3">
@@ -161,52 +167,65 @@ export default function AdminDashboard() {
                     {s.value}
                   </div>
                   <div className="text-sm text-slate-500 dark:text-slate-400">{s.label}</div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
 
             {/* Quick Actions */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-              <Link
-                href="/admin/packages"
-                className="bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-white/10 p-6 hover:border-emerald-500/50 dark:hover:border-emerald-500/30 hover:shadow-md dark:hover:bg-slate-800/70 transition-all group shadow-sm dark:shadow-none"
-              >
-                <div className="text-3xl mb-3"></div>
-                <h3 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                  {t("admin.managePackages")}
-                </h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                  {t("admin.managePackagesDesc")}
-                </p>
-              </Link>
-              <Link
-                href="/admin/reservations"
-                className="bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-white/10 p-6 hover:border-cyan-500/50 dark:hover:border-cyan-500/30 hover:shadow-md dark:hover:bg-slate-800/70 transition-all group shadow-sm dark:shadow-none"
-              >
-                <div className="text-3xl mb-3"></div>
-                <h3 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
-                  {t("admin.allReservations")}
-                </h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                  {t("admin.allReservationsDesc")}
-                </p>
-              </Link>
-              <Link
-                href="/admin/packages/new"
-                className="bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-white/10 p-6 hover:border-amber-500/50 dark:hover:border-amber-500/30 hover:shadow-md dark:hover:bg-slate-800/70 transition-all group shadow-sm dark:shadow-none"
-              >
-                <div className="text-3xl mb-3"></div>
-                <h3 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
-                  {t("admin.newPackage")}
-                </h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                  {t("admin.newPackageDesc")}
-                </p>
-              </Link>
-            </div>
+            <motion.div 
+              initial="hidden" animate="visible"
+              variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.2 } } }}
+              className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8"
+            >
+              <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}>
+                <Link
+                  href="/admin/packages"
+                  className="block bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-white/10 p-6 hover:border-emerald-500/50 dark:hover:border-emerald-500/30 hover:shadow-md dark:hover:bg-slate-800/70 transition-all group shadow-sm dark:shadow-none"
+                >
+                  <div className="text-3xl mb-3"></div>
+                  <h3 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                    {t("admin.managePackages")}
+                  </h3>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                    {t("admin.managePackagesDesc")}
+                  </p>
+                </Link>
+              </motion.div>
+              <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}>
+                <Link
+                  href="/admin/reservations"
+                  className="block bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-white/10 p-6 hover:border-cyan-500/50 dark:hover:border-cyan-500/30 hover:shadow-md dark:hover:bg-slate-800/70 transition-all group shadow-sm dark:shadow-none"
+                >
+                  <div className="text-3xl mb-3"></div>
+                  <h3 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
+                    {t("admin.allReservations")}
+                  </h3>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                    {t("admin.allReservationsDesc")}
+                  </p>
+                </Link>
+              </motion.div>
+              <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}>
+                <Link
+                  href="/admin/packages/new"
+                  className="block bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-white/10 p-6 hover:border-amber-500/50 dark:hover:border-amber-500/30 hover:shadow-md dark:hover:bg-slate-800/70 transition-all group shadow-sm dark:shadow-none"
+                >
+                  <div className="text-3xl mb-3"></div>
+                  <h3 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                    {t("admin.newPackage")}
+                  </h3>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                    {t("admin.newPackageDesc")}
+                  </p>
+                </Link>
+              </motion.div>
+            </motion.div>
 
             {/* Graphics Dashboard Section */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.5 }}
+              className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8"
+            >
               <div className="bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-white/10 p-6 shadow-sm dark:shadow-none">
                 <h2 className="text-xl font-bold mb-6 text-slate-900 dark:text-white">{t("admin.revenueTrend")}</h2>
                 <div className="w-full h-80">
@@ -263,7 +282,10 @@ export default function AdminDashboard() {
             </div>
 
             {/* Recent Reservations */}
-            <div className="bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-white/10 p-6 shadow-sm dark:shadow-none">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.5 }}
+              className="bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-white/10 p-6 shadow-sm dark:shadow-none"
+            >
               <h2 className="text-xl font-bold mb-4 text-slate-900 dark:text-white">{t("admin.recentReservations")}</h2>
               {stats.recentReservations.length === 0 ? (
                 <p className="text-slate-500 dark:text-slate-400 text-center py-8">{t("admin.noReservations")}</p>

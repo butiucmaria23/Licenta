@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -102,9 +103,17 @@ export default function AdminPackagesPage() {
                     <th className="text-right py-4 px-5 font-medium">{language === "ro" ? "Acțiuni" : "Actions"}</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-white/5">
+                <motion.tbody 
+                  initial="hidden" animate="visible"
+                  variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.05 } } }}
+                  className="divide-y divide-slate-100 dark:divide-white/5"
+                >
                   {packages.map((pkg) => (
-                    <tr key={pkg.id} className="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                    <motion.tr 
+                      key={pkg.id} 
+                      variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0 } }}
+                      className="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors"
+                    >
                       <td className="py-4 px-5"><span className="font-medium text-slate-900 dark:text-white">{language === "en" && pkg.titleEn ? pkg.titleEn : pkg.title}</span></td>
                       <td className="py-4 px-5 text-slate-500 dark:text-slate-400">{language === "en" && pkg.destinationEn ? pkg.destinationEn : pkg.destination}</td>
                       <td className="py-4 px-5 text-emerald-600 dark:text-emerald-400 font-medium">€{pkg.price}</td>
@@ -130,9 +139,9 @@ export default function AdminPackagesPage() {
                           ️ {language === "ro" ? "Șterge" : "Delete"}
                         </button>
                       </td>
-                    </tr>
+                    </motion.tr>
                   ))}
-                </tbody>
+                </motion.tbody>
               </table>
             </div>
           </div>

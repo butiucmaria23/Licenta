@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -112,9 +113,17 @@ export default function AdminReservationsPage() {
                     <th className="text-right py-4 px-5 font-medium">{language === "ro" ? "Acțiuni" : "Actions"}</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-white/5">
+                <motion.tbody 
+                  initial="hidden" animate="visible"
+                  variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.05 } } }}
+                  className="divide-y divide-slate-100 dark:divide-white/5"
+                >
                   {reservations.map((r) => (
-                    <tr key={r.id} className="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                    <motion.tr 
+                      key={r.id} 
+                      variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0 } }}
+                      className="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors"
+                    >
                       <td className="py-4 px-5 font-medium text-slate-900 dark:text-white">{r.user.name}</td>
                       <td className="py-4 px-5 text-slate-500 dark:text-slate-400">{r.user.email}</td>
                       <td className="py-4 px-5 text-slate-600 dark:text-slate-300">
@@ -139,9 +148,9 @@ export default function AdminReservationsPage() {
                           </button>
                         )}
                       </td>
-                    </tr>
+                    </motion.tr>
                   ))}
-                </tbody>
+                </motion.tbody>
               </table>
             </div>
           </div>

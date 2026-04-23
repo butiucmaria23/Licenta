@@ -22,7 +22,7 @@ export default function PackageDetailPage() {
   const { t, language } = useLanguage();
   const [pkg, setPkg] = useState<Package | null>(null);
   const [loading, setLoading] = useState(true);
-  const [numberOfPeople, setNumberOfPeople] = useState(1);
+  const [numberOfPeople, setNumberOfPeople] = useState<number | "">(1);
   const [booking, setBooking] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
@@ -43,7 +43,7 @@ export default function PackageDetailPage() {
       const res = await fetch("/api/reservations", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ packageId: id, numberOfPeople }),
+        body: JSON.stringify({ packageId: id, numberOfPeople: numberOfPeople || 1 }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
@@ -153,7 +153,18 @@ export default function PackageDetailPage() {
                 <div>
                   <label className="block text-sm text-slate-500 dark:text-slate-400 mb-1.5">{t("pkg.numPeople")}</label>
                   <input type="number" min={1} max={available} value={numberOfPeople}
-                    onChange={(e) => setNumberOfPeople(parseInt(e.target.value) || 1)}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      if (val === "") setNumberOfPeople("");
+                      else {
+                        const parsed = parseInt(val);
+                        if (!isNaN(parsed)) setNumberOfPeople(parsed);
+                      }
+                    }}
+                    onBlur={() => {
+                      if (numberOfPeople === "" || (numberOfPeople as number) < 1) setNumberOfPeople(1);
+                      if ((numberOfPeople as number) > available) setNumberOfPeople(available);
+                    }}
                     className="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-700/50 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 transition-all"
                   />
                 </div>
@@ -165,11 +176,11 @@ export default function PackageDetailPage() {
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-slate-500 dark:text-slate-400">{t("pkg.people")}</span>
-                    <span className="text-slate-900 dark:text-white">×{numberOfPeople}</span>
+                    <span className="text-slate-900 dark:text-white">×{numberOfPeople || 1}</span>
                   </div>
                   <div className="border-t border-slate-200 dark:border-white/10 pt-2 flex justify-between">
                     <span className="font-bold text-slate-900 dark:text-white">{t("pkg.total")}</span>
-                    <span className="font-bold text-emerald-600 dark:text-emerald-400 text-lg">€{(pkg.price * numberOfPeople).toFixed(2)}</span>
+                    <span className="font-bold text-emerald-600 dark:text-emerald-400 text-lg">€{(pkg.price * (numberOfPeople || 1)).toFixed(2)}</span>
                   </div>
                 </div>
 

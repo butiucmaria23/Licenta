@@ -48,7 +48,7 @@ export default function Footer() {
                 <span></span> contact@packandgo.ro
               </li>
               <li className="flex items-center gap-2">
-                <span></span> +40 123 456 789
+                <span></span> +40 748 568 987
               </li>
               <li className="flex items-center gap-2">
                 <span></span> București, România

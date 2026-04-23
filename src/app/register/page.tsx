@@ -38,7 +38,7 @@ export default function RegisterPage() {
       <div className="relative w-full max-w-md">
         <div className="bg-white dark:bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-200 dark:border-white/10 p-8 shadow-xl dark:shadow-2xl">
           <div className="text-center mb-8">
-            <span className="text-4xl">🌍</span>
+            <span className="text-4xl"></span>
             <h1 className="text-2xl font-bold mt-4 mb-2 text-slate-900 dark:text-white">{t("reg.title")}</h1>
             <p className="text-slate-500 dark:text-slate-400 text-sm">{t("reg.subtitle")}</p>
           </div>

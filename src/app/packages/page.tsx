@@ -112,7 +112,7 @@ export default function PackagesPage() {
           </div>
         ) : packages.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-4xl mb-4">🔍</p>
+            <p className="text-4xl mb-4"></p>
             <p className="text-xl text-slate-500 dark:text-slate-400">{t("pkgs.noResults")}</p>
             <button onClick={clearFilters} className="mt-4 text-emerald-600 dark:text-emerald-400 hover:underline">{t("pkgs.resetFilters")}</button>
           </div>
@@ -148,13 +148,13 @@ export default function PackagesPage() {
                         {language === "en" && pkg.titleEn ? pkg.titleEn : pkg.title}
                       </h3>
                       <p className="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1.5 mb-3">
-                        <span>📍</span> {language === "en" && pkg.destinationEn ? pkg.destinationEn : pkg.destination}
+                        <span></span> {language === "en" && pkg.destinationEn ? pkg.destinationEn : pkg.destination}
                       </p>
                       <p className="text-sm text-slate-500 line-clamp-2 mb-4">
                         {language === "en" && pkg.descriptionEn ? pkg.descriptionEn : pkg.description}
                       </p>
                       <div className="flex items-center justify-between text-xs text-slate-500">
-                        <span>📅 {new Date(pkg.startDate).toLocaleDateString(locale)} — {new Date(pkg.endDate).toLocaleDateString(locale)}</span>
+                        <span> {new Date(pkg.startDate).toLocaleDateString(locale)} — {new Date(pkg.endDate).toLocaleDateString(locale)}</span>
                         <span className={available > 5 ? "text-emerald-600 dark:text-emerald-400" : "text-amber-600 dark:text-amber-400"}>
                           {t("pkgs.slots").replace("{n}", String(available))}
                         </span>

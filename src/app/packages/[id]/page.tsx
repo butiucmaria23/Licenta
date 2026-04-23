@@ -67,7 +67,7 @@ export default function PackageDetailPage() {
   if (!pkg) return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white transition-colors">
       <div className="text-center">
-        <p className="text-4xl mb-4">😕</p>
+        <p className="text-4xl mb-4"></p>
         <p className="text-xl text-slate-500 dark:text-slate-400">{t("pkg.notFound")}</p>
         <button onClick={() => router.push("/packages")} className="mt-4 text-emerald-600 dark:text-emerald-400 hover:underline">
           {t("pkg.back")}
@@ -92,7 +92,7 @@ export default function PackageDetailPage() {
             {t("pkg.back")}
           </button>
           <h1 className="text-4xl md:text-5xl font-bold mb-2 text-white">{pkgTitle}</h1>
-          <p className="text-lg text-slate-300 flex items-center gap-2"><span>📍</span> {pkgDest}</p>
+          <p className="text-lg text-slate-300 flex items-center gap-2"><span></span> {pkgDest}</p>
         </div>
       </div>
 
@@ -103,9 +103,9 @@ export default function PackageDetailPage() {
             {/* Info Cards */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
-                { icon: "💰", val: `€${pkg.price}`, label: t("pkg.perPerson"), cls: "text-emerald-600 dark:text-emerald-400" },
-                { icon: "📅", val: String(days), label: t("pkg.days"), cls: "text-cyan-600 dark:text-cyan-400" },
-                { icon: "👥", val: String(available), label: t("pkg.availableSlots"), cls: available > 5 ? "text-emerald-600 dark:text-emerald-400" : "text-amber-600 dark:text-amber-400" },
+                { icon: "", val: `€${pkg.price}`, label: t("pkg.perPerson"), cls: "text-emerald-600 dark:text-emerald-400" },
+                { icon: "", val: String(days), label: t("pkg.days"), cls: "text-cyan-600 dark:text-cyan-400" },
+                { icon: "", val: String(available), label: t("pkg.availableSlots"), cls: available > 5 ? "text-emerald-600 dark:text-emerald-400" : "text-amber-600 dark:text-amber-400" },
               ].map((c, i) => (
                 <div key={i} className="bg-white dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-white/10 p-4 text-center shadow-sm dark:shadow-none">
                   <div className="text-2xl mb-1">{c.icon}</div>
@@ -114,7 +114,7 @@ export default function PackageDetailPage() {
                 </div>
               ))}
               <div className="bg-white dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-white/10 p-4 text-center shadow-sm dark:shadow-none">
-                <div className="text-2xl mb-1">🗓️</div>
+                <div className="text-2xl mb-1">️</div>
                 <div className="text-sm font-bold text-slate-900 dark:text-white">
                   {new Date(pkg.startDate).toLocaleDateString(locale, { day: "numeric", month: "short" })}
                 </div>

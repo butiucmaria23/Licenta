@@ -76,7 +76,7 @@ export default function AdminPackagesPage() {
           <Link href="/admin/packages/new"
             className="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-medium hover:from-emerald-600 hover:to-cyan-600 dark:hover:from-emerald-400 dark:hover:to-cyan-400 transition-all shadow-lg shadow-emerald-500/25 text-center"
           >
-            ➕ {t("admin.newPackage")}
+             {t("admin.newPackage")}
           </Link>
         </div>
       </div>
@@ -84,7 +84,7 @@ export default function AdminPackagesPage() {
       <div className="max-w-7xl mx-auto px-4 pb-20 -mt-4">
         {packages.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-4xl mb-4">📦</p>
+            <p className="text-4xl mb-4"></p>
             <p className="text-xl text-slate-500 dark:text-slate-400">{t("admin.noReservations")}</p>
           </div>
         ) : (
@@ -122,12 +122,12 @@ export default function AdminPackagesPage() {
                         <Link href={`/admin/packages/${pkg.id}/edit`}
                           className="inline-block px-3 py-1.5 rounded-lg border border-slate-300 dark:border-white/20 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 transition-all text-xs font-medium"
                         >
-                          ✏️ {language === "ro" ? "Editează" : "Edit"}
+                          ️ {language === "ro" ? "Editează" : "Edit"}
                         </Link>
                         <button onClick={() => deletePackage(pkg.id, pkg.title)}
                           className="px-3 py-1.5 rounded-lg border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all text-xs font-medium"
                         >
-                          🗑️ {language === "ro" ? "Șterge" : "Delete"}
+                          ️ {language === "ro" ? "Șterge" : "Delete"}
                         </button>
                       </td>
                     </tr>

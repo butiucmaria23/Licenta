@@ -4,7 +4,7 @@ import { comparePassword, signToken } from "@/lib/auth";
 import { z } from "zod";
 
 const loginSchema = z.object({
-  email: z.string().email("Adresa de email nu este validă"),
+  email: z.string().trim().toLowerCase().email("Adresa de email nu este validă"),
   password: z.string().min(1, "Parola este obligatorie"),
 });
 

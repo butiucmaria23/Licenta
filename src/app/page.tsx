@@ -38,7 +38,7 @@ export default function HomePage() {
 
         <div className="relative z-10 max-w-5xl mx-auto px-4 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-sm font-medium mb-8 animate-fade-in-up">
-            <span>🌍</span> {t("hero.badge").replace("🌍 ", "")}
+            <span></span> {t("hero.badge").replace(" ", "")}
           </div>
 
           <h1 className="text-5xl md:text-7xl font-bold mb-6 text-slate-900 dark:text-white animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
@@ -80,7 +80,7 @@ export default function HomePage() {
               <div className="text-sm text-slate-600 dark:text-slate-500">{t("stats.clients")}</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">4.9★</div>
+              <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">4.9</div>
               <div className="text-sm text-slate-600 dark:text-slate-500">{t("stats.rating")}</div>
             </div>
           </div>
@@ -125,7 +125,7 @@ export default function HomePage() {
                     {language === "en" && pkg.titleEn ? pkg.titleEn : pkg.title}
                   </h3>
                   <p className="text-sm text-slate-600 dark:text-slate-400 flex items-center gap-1">
-                    <span>📍</span> {language === "en" && pkg.destinationEn ? pkg.destinationEn : pkg.destination}
+                    <span></span> {language === "en" && pkg.destinationEn ? pkg.destinationEn : pkg.destination}
                   </p>
                   <div className="mt-3 text-xs text-slate-500">
                     {new Date(pkg.startDate).toLocaleDateString(language === "ro" ? "ro-RO" : "en-US")} —{" "}
@@ -164,9 +164,9 @@ export default function HomePage() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { icon: "🔒", title: t("why.safe.title"), desc: t("why.safe.desc") },
-              { icon: "🎯", title: t("why.filter.title"), desc: t("why.filter.desc") },
-              { icon: "⚡", title: t("why.admin.title"), desc: t("why.admin.desc") },
+              { icon: "", title: t("why.safe.title"), desc: t("why.safe.desc") },
+              { icon: "", title: t("why.filter.title"), desc: t("why.filter.desc") },
+              { icon: "", title: t("why.admin.title"), desc: t("why.admin.desc") },
             ].map((item, i) => (
               <div
                 key={i}
@@ -215,7 +215,7 @@ export default function HomePage() {
                 </div>
                 <p className="text-sm text-slate-600 dark:text-slate-400 italic">"{test.review}"</p>
                 <div className="mt-4 flex gap-1 text-amber-500 dark:text-amber-400 text-sm">
-                  <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                  <span></span><span></span><span></span><span></span><span></span>
                 </div>
               </div>
             ))}

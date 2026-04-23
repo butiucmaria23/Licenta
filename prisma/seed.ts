@@ -186,13 +186,13 @@ async function main() {
     });
   }
 
-  console.log("✅ Database seeded successfully!");
+  console.log(" Database seeded successfully!");
   console.log(`   - ${await prisma.user.count()} users (1 admin + 30 clients)`);
   console.log(`   - ${await prisma.package.count()} packages`);
   console.log(`   - ${await prisma.reservation.count()} reservations`);
   console.log("");
-  console.log("📧 Admin: admin@travelpack.ro / admin123");
-  console.log("📧 Any client: [firstname].[lastname]@example.com / user123");
+  console.log(" Admin: admin@travelpack.ro / admin123");
+  console.log(" Any client: [firstname].[lastname]@example.com / user123");
 }
 
 main()

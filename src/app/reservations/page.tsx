@@ -98,7 +98,7 @@ export default function ReservationsPage() {
       <div className="max-w-7xl mx-auto px-4 pb-20 -mt-4">
         {reservations.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-4xl mb-4">📋</p>
+            <p className="text-4xl mb-4"></p>
             <p className="text-xl text-slate-500 dark:text-slate-400 mb-2">{t("res.empty")}</p>
             <p className="text-slate-500 mb-6">{t("res.emptyDesc")}</p>
             <button onClick={() => router.push("/packages")}
@@ -127,11 +127,11 @@ export default function ReservationsPage() {
                         </h3>
                         {statusBadge(r.status)}
                       </div>
-                      <p className="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1 mb-2"><span>📍</span> {language === "en" && r.package.destinationEn ? r.package.destinationEn : r.package.destination}</p>
+                      <p className="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1 mb-2"><span></span> {language === "en" && r.package.destinationEn ? r.package.destinationEn : r.package.destination}</p>
                       <div className="flex flex-wrap gap-4 text-xs text-slate-500">
-                        <span>📅 {new Date(r.package.startDate).toLocaleDateString(locale)} — {new Date(r.package.endDate).toLocaleDateString(locale)}</span>
-                        <span>👥 {r.numberOfPeople} {t("res.people")}</span>
-                        <span>📌 {t("res.booked")} {new Date(r.createdAt).toLocaleDateString(locale)}</span>
+                        <span> {new Date(r.package.startDate).toLocaleDateString(locale)} — {new Date(r.package.endDate).toLocaleDateString(locale)}</span>
+                        <span> {r.numberOfPeople} {t("res.people")}</span>
+                        <span> {t("res.booked")} {new Date(r.createdAt).toLocaleDateString(locale)}</span>
                       </div>
                     </div>
                     <div className="flex items-center gap-4">

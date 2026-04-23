@@ -21,7 +21,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <span className="text-2xl">✈️</span>
+            <span className="text-2xl">️</span>
             <span className="text-xl font-bold bg-gradient-to-r from-emerald-500 to-cyan-500 dark:from-emerald-400 dark:to-cyan-400 bg-clip-text text-transparent group-hover:from-emerald-600 group-hover:to-cyan-600 dark:group-hover:from-emerald-300 dark:group-hover:to-cyan-300 transition-all">
               Pack&Go
             </span>
@@ -74,7 +74,7 @@ export default function Navbar() {
                   title={theme === 'light' ? 'Switch to Dark' : theme === 'dark' ? 'Switch to System' : 'Switch to Light'}
                   className="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 transition-all text-base"
                 >
-                  {theme === 'dark' ? '🌛' : theme === 'system' ? '💻' : '🌞'}
+                  {theme === 'dark' ? '' : theme === 'system' ? '' : ''}
                 </button>
               )}
             </div>
@@ -122,7 +122,7 @@ export default function Navbar() {
                 onClick={() => setTheme(theme === 'light' ? 'dark' : theme === 'dark' ? 'system' : 'light')}
                 className="p-2 rounded-lg text-slate-600 dark:text-slate-300"
               >
-                {theme === 'dark' ? '🌛' : theme === 'system' ? '💻' : '🌞'}
+                {theme === 'dark' ? '' : theme === 'system' ? '' : ''}
               </button>
             )}
             <button

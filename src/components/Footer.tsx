@@ -11,7 +11,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <span className="text-2xl">✈️</span>
+              <span className="text-2xl">️</span>
               <span className="text-xl font-bold bg-gradient-to-r from-emerald-500 to-cyan-500 dark:from-emerald-400 dark:to-cyan-400 bg-clip-text text-transparent">
                 Pack&Go
               </span>
@@ -45,13 +45,13 @@ export default function Footer() {
             <h3 className="text-slate-900 dark:text-white font-semibold mb-4">{t("footer.contact")}</h3>
             <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
               <li className="flex items-center gap-2">
-                <span>📧</span> contact@packandgo.ro
+                <span></span> contact@packandgo.ro
               </li>
               <li className="flex items-center gap-2">
-                <span>📞</span> +40 123 456 789
+                <span></span> +40 123 456 789
               </li>
               <li className="flex items-center gap-2">
-                <span>📍</span> București, România
+                <span></span> București, România
               </li>
             </ul>
           </div>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -152,11 +153,22 @@ export default function ReservationsPage() {
             </button>
           </div>
         ) : (
-          <div className="space-y-4">
+          <motion.div 
+            initial="hidden" animate="visible"
+            variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.15 } } }}
+            className="space-y-4"
+          >
+            <AnimatePresence>
             {reservations.map((r) => {
               const isFinished = r.status === "CONFIRMED" && new Date(r.package.endDate) < new Date();
               return (
-                <div key={r.id} className="bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden hover:border-slate-300 dark:hover:border-white/20 transition-all shadow-sm dark:shadow-none">
+                <motion.div 
+                  layout
+                  key={r.id} 
+                  variants={{ hidden: { opacity: 0, x: -20 }, visible: { opacity: 1, x: 0 } }}
+                  exit={{ opacity: 0, x: 20, scale: 0.95 }}
+                  className="bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden hover:border-slate-300 dark:hover:border-white/20 transition-all shadow-sm dark:shadow-none"
+                >
                   <div className="flex flex-col md:flex-row">
                     <div className="md:w-48 h-36 md:h-auto flex-shrink-0">
                       <img src={r.package.imageUrl || "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=300&h=200&fit=crop"}
@@ -217,17 +229,25 @@ export default function ReservationsPage() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
-          </div>
+            </AnimatePresence>
+          </motion.div>
         )}
       </div>
 
       {/* Review Modal */}
+      <AnimatePresence>
       {reviewModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl w-full max-w-md p-6 border border-slate-200 dark:border-white/10 shadow-2xl">
+        <motion.div 
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm"
+        >
+          <motion.div 
+            initial={{ scale: 0.9, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 20 }}
+            className="bg-white dark:bg-slate-900 rounded-2xl w-full max-w-md p-6 border border-slate-200 dark:border-white/10 shadow-2xl"
+          >
             <h2 className="text-2xl font-bold mb-4">{language === "en" ? "Review Your Trip" : "Evaluează vacanța"}</h2>
             {reviewError && (
               <div className="mb-4 p-3 rounded-lg bg-red-100 text-red-700 dark:bg-red-500/10 dark:text-red-400 text-sm">
@@ -282,9 +302,10 @@ export default function ReservationsPage() {
                 </button>
               </div>
             </form>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -35,7 +36,12 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-slate-50 dark:bg-slate-950 transition-colors">
       <div className="absolute inset-0 bg-gradient-to-br from-slate-100 via-cyan-50/20 to-slate-100 dark:from-slate-950 dark:via-cyan-950/20 dark:to-slate-950 transition-colors" />
 
-      <div className="relative w-full max-w-md">
+      <motion.div 
+        initial={{ opacity: 0, y: 30, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        className="relative w-full max-w-md"
+      >
         <div className="bg-white dark:bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-200 dark:border-white/10 p-8 shadow-xl dark:shadow-2xl">
           <div className="text-center mb-8">
             <span className="text-4xl"></span>
@@ -87,7 +93,7 @@ export default function RegisterPage() {
             <Link href="/login" className="text-emerald-600 dark:text-emerald-400 hover:underline font-medium">{t("reg.signIn")}</Link>
           </p>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 
 interface Package {
@@ -125,12 +126,17 @@ export default function PackagesPage() {
             <p className="text-slate-500 dark:text-slate-400 text-sm mb-6">
               {packages.length} {packages.length !== 1 ? t("pkgs.found.many") : t("pkgs.found.one")}
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <motion.div 
+              initial="hidden" animate="visible"
+              variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            >
               {packages.map((pkg) => {
                 const slotsUsed = pkg._count?.reservations || 0;
                 const available = pkg.maxSlots - slotsUsed;
                 return (
-                  <Link key={pkg.id} href={`/packages/${pkg.id}`}
+                  <motion.div key={pkg.id} variants={{ hidden: { opacity: 0, y: 20, scale: 0.95 }, visible: { opacity: 1, y: 0, scale: 1 } }}>
+                    <Link href={`/packages/${pkg.id}`}
                     className="group card-glow bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden hover:border-emerald-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-500/10 shadow-sm dark:shadow-none"
                   >
                     <div className="aspect-[16/10] relative overflow-hidden">
@@ -165,9 +171,10 @@ export default function PackagesPage() {
                       </div>
                     </div>
                   </Link>
+                  </motion.div>
                 );
               })}
-            </div>
+            </motion.div>
           </>
         )}
       </div>

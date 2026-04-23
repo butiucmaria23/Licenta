@@ -152,18 +152,24 @@ export default function PackageDetailPage() {
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm text-slate-500 dark:text-slate-400 mb-1.5">{t("pkg.numPeople")}</label>
-                  <input type="number" min={1} max={available} value={numberOfPeople}
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    value={numberOfPeople}
                     onChange={(e) => {
-                      const val = e.target.value;
-                      if (val === "") setNumberOfPeople("");
-                      else {
-                        const parsed = parseInt(val);
-                        if (!isNaN(parsed)) setNumberOfPeople(parsed);
+                      const val = e.target.value.replace(/[^0-9]/g, "");
+                      if (val === "") {
+                        setNumberOfPeople("");
+                      } else {
+                        setNumberOfPeople(parseInt(val, 10));
                       }
                     }}
                     onBlur={() => {
-                      if (numberOfPeople === "" || (numberOfPeople as number) < 1) setNumberOfPeople(1);
-                      if ((numberOfPeople as number) > available) setNumberOfPeople(available);
+                      const n = typeof numberOfPeople === "number" ? numberOfPeople : parseInt(String(numberOfPeople), 10);
+                      if (!n || n < 1) setNumberOfPeople(1);
+                      else if (n > available) setNumberOfPeople(available);
+                      else setNumberOfPeople(n);
                     }}
                     className="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-700/50 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 transition-all"
                   />

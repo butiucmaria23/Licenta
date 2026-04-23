@@ -73,3 +73,23 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+export async function GET(request: NextRequest) {
+  try {
+    const reviews = await prisma.review.findMany({
+      orderBy: { createdAt: "desc" },
+      include: {
+        user: { select: { name: true } },
+        package: { select: { title: true, titleEn: true, destination: true, destinationEn: true } }
+      },
+      take: 6,
+    });
+    return NextResponse.json(reviews);
+  } catch (error) {
+    console.error("GET Reviews Error:", error);
+    return NextResponse.json(
+      { error: "Eroare la încărcarea recenziilor" },
+      { status: 500 }
+    );
+  }
+}

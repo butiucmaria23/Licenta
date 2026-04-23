@@ -16,14 +16,30 @@ interface Package {
   imageUrl: string;
 }
 
+interface ReviewData {
+  id: string;
+  rating: number;
+  comment: string;
+  user: { name: string };
+  package: { title: string; titleEn?: string | null; destination: string; destinationEn?: string | null };
+}
+
 export default function HomePage() {
   const [featured, setFeatured] = useState<Package[]>([]);
+  const [reviews, setReviews] = useState<ReviewData[]>([]);
   const { t, language } = useLanguage();
 
   useEffect(() => {
     fetch("/api/packages")
       .then((res) => res.json())
       .then((data) => setFeatured(data.slice(0, 8)))
+      .catch(() => {});
+
+    fetch("/api/reviews")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) setReviews(data);
+      })
       .catch(() => {});
   }, []);
 
@@ -198,27 +214,36 @@ export default function HomePage() {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { name: "Andrei Popescu", dest: "Maldives", review: language === "ro" ? "Cea mai bună experiență! Echipa a fost minunată, prețurile fantastice." : "The best experience! Wonderful team, fantastic prices." },
-              { name: "Elena Ionescu", dest: "Bali", review: language === "ro" ? "Am avut o vacanță de vis, rezervarea a fost rapidă și sigură. Recomand cu încredere!" : "I had a dream vacation, the booking was fast and secure. Highly recommended!" },
-              { name: "Mihai Stoica", dest: "Paris", review: language === "ro" ? "M-am bucurat de fiecare moment, pachetul oferea tot ce era necesar." : "I enjoyed every moment, the package had everything needed." },
-            ].map((test, i) => (
-              <div key={i} className="p-6 rounded-2xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-white/10 shadow-sm dark:shadow-none hover:-translate-y-1 transition-transform cursor-default">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/50 rounded-full flex items-center justify-center text-emerald-600 dark:text-emerald-400 font-bold text-xl">
-                    {test.name[0]}
-                  </div>
+            { (() => {
+              const staticReviews: ReviewData[] = [
+                { id: "s1", rating: 5, user: { name: "Andrei Popescu" }, package: { title: "Serenitate în Maldive", titleEn: "Maldives Serenity", destination: "Malé, Maldive", destinationEn: "Malé, Maldives" }, comment: language === "ro" ? "Cea mai bună experiență! Echipa a fost minunată, prețurile fantastice." : "The best experience! Wonderful team, fantastic prices." },
+                { id: "s2", rating: 5, user: { name: "Elena Ionescu" }, package: { title: "Paradisul Tropical Bali", titleEn: "Bali Tropical Paradise", destination: "Bali, Indonezia", destinationEn: "Bali, Indonesia" }, comment: language === "ro" ? "Am avut o vacanță de vis, rezervarea a fost rapidă și sigură. Recomand cu încredere!" : "I had a dream vacation, the booking was fast and secure. Highly recommended!" },
+                { id: "s3", rating: 4, user: { name: "Mihai Stoica" }, package: { title: "Pura Vida Costa Rica", titleEn: "Pura Vida Costa Rica", destination: "San Jose, Costa Rica", destinationEn: "San Jose, Costa Rica" }, comment: language === "ro" ? "M-am bucurat de fiecare moment, pachetul oferea tot ce era necesar." : "I enjoyed every moment, the package had everything needed." },
+              ];
+              const displayReviews = [...reviews, ...staticReviews].slice(0, 6);
+              
+              return displayReviews.map((test, i) => (
+                <div key={test.id} className="p-6 rounded-2xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-white/10 shadow-sm dark:shadow-none hover:-translate-y-1 transition-transform cursor-default flex flex-col justify-between">
                   <div>
-                    <h4 className="font-bold text-slate-900 dark:text-white">{test.name}</h4>
-                    <p className="text-xs text-slate-500 pt-0.5">{language === "ro" ? "A rezervat " : "Booked "}{test.dest}</p>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/50 rounded-full flex items-center justify-center text-emerald-600 dark:text-emerald-400 font-bold text-xl flex-shrink-0">
+                        {test.user.name[0]}
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-slate-900 dark:text-white leading-tight">{test.user.name}</h4>
+                        <p className="text-[11px] text-slate-500 line-clamp-1 mt-0.5" title={language === "en" && test.package.titleEn ? test.package.titleEn : test.package.title}>
+                          {language === "ro" ? "Pachet: " : "Package: "}<span className="font-medium text-slate-600 dark:text-slate-400">{language === "en" && test.package.titleEn ? test.package.titleEn : test.package.title}</span>
+                        </p>
+                      </div>
+                    </div>
+                    <p className="text-sm text-slate-600 dark:text-slate-400 italic">"{test.comment}"</p>
+                  </div>
+                  <div className="mt-4 flex text-amber-500 dark:text-amber-400 text-sm">
+                    {"★".repeat(test.rating)}{"☆".repeat(5 - test.rating)}
                   </div>
                 </div>
-                <p className="text-sm text-slate-600 dark:text-slate-400 italic">"{test.review}"</p>
-                <div className="mt-4 flex gap-1 text-amber-500 dark:text-amber-400 text-sm">
-                  <span></span><span></span><span></span><span></span><span></span>
-                </div>
-              </div>
-            ))}
+              ));
+            })()}
           </div>
         </div>
       </section>

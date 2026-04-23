@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -32,7 +33,12 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center px-4 bg-slate-50 dark:bg-slate-950 transition-colors">
       <div className="absolute inset-0 bg-gradient-to-br from-slate-100 via-emerald-50/30 to-slate-100 dark:from-slate-950 dark:via-emerald-950/20 dark:to-slate-950 transition-colors" />
 
-      <div className="relative w-full max-w-md">
+      <motion.div 
+        initial={{ opacity: 0, y: 30, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        className="relative w-full max-w-md"
+      >
         <div className="bg-white dark:bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-200 dark:border-white/10 p-8 shadow-xl dark:shadow-2xl">
           <div className="text-center mb-8">
             <span className="text-4xl">️</span>
@@ -72,13 +78,8 @@ export default function LoginPage() {
             <Link href="/register" className="text-emerald-600 dark:text-emerald-400 hover:underline font-medium">{t("login.signUp")}</Link>
           </p>
 
-          <div className="mt-6 p-3 rounded-xl bg-slate-100 dark:bg-slate-700/30 border border-slate-200 dark:border-white/5">
-            <p className="text-xs text-slate-500 text-center mb-1">{t("login.demoAccounts")}</p>
-            <p className="text-xs text-slate-500 dark:text-slate-400 text-center">Admin: <span className="text-emerald-600 dark:text-emerald-400">admin@packgo.ro</span> / admin123</p>
-            <p className="text-xs text-slate-500 dark:text-slate-400 text-center">User: <span className="text-emerald-600 dark:text-emerald-400">maria@example.com</span> / user123</p>
-          </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

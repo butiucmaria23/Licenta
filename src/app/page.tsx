@@ -29,7 +29,7 @@ export default function HomePage() {
   const [featured, setFeatured] = useState<Package[]>([]);
   const [reviews, setReviews] = useState<ReviewData[]>([]);
   const { t, language } = useLanguage();
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
 
   useEffect(() => {
     fetch("/api/packages")
@@ -79,7 +79,7 @@ export default function HomePage() {
             >
               {t("hero.explore")}
             </Link>
-            {!user && (
+            {!user && !isLoading && (
               <Link
                 href="/register"
                 className="px-8 py-4 rounded-xl border border-slate-300 dark:border-white/20 text-slate-800 dark:text-white font-semibold hover:bg-slate-200 dark:hover:bg-white/10 transition-all hover:-translate-y-0.5 text-lg"

@@ -293,7 +293,7 @@ export default function AdminDashboard() {
                   </ResponsiveContainer>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Recent Reservations */}
             <motion.div 
@@ -344,7 +344,7 @@ export default function AdminDashboard() {
                   </table>
                 </div>
               )}
-            </div>
+            </motion.div>
           </>
         )}
       </div>

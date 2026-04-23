@@ -27,6 +27,7 @@ export async function GET(request: NextRequest) {
             imageUrl: true,
           },
         },
+        review: true,
       },
       orderBy: { createdAt: "desc" },
     });

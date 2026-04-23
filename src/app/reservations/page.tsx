@@ -21,6 +21,12 @@ interface Reservation {
     endDate: string;
     imageUrl: string;
   };
+  review?: {
+    id: string;
+    rating: number;
+    comment: string;
+    createdAt: string;
+  } | null;
 }
 
 export default function ReservationsPage() {
@@ -29,6 +35,14 @@ export default function ReservationsPage() {
   const router = useRouter();
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Review Modal State
+  const [reviewModalOpen, setReviewModalOpen] = useState(false);
+  const [selectedResId, setSelectedResId] = useState("");
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState("");
+  const [reviewError, setReviewError] = useState("");
+  const [reviewLoading, setReviewLoading] = useState(false);
 
   useEffect(() => {
     if (isLoading) return;
@@ -51,6 +65,36 @@ export default function ReservationsPage() {
       await fetch(`/api/reservations/${id}`, { method: "DELETE", headers: { Authorization: `Bearer ${token}` } });
       fetchReservations();
     } catch { console.error("Error cancelling reservation"); }
+  };
+
+  const openReviewModal = (id: string) => {
+    setSelectedResId(id);
+    setRating(5);
+    setComment("");
+    setReviewError("");
+    setReviewModalOpen(true);
+  };
+
+  const submitReview = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setReviewError("");
+    setReviewLoading(true);
+    try {
+      const res = await fetch("/api/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ reservationId: selectedResId, rating, comment }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Eroare la adăugarea recenziei");
+      }
+      setReviewModalOpen(false);
+      fetchReservations(); // Reload the data
+    } catch(err: any) {
+      setReviewError(err.message);
+    }
+    setReviewLoading(false);
   };
 
   const locale = language === "ro" ? "ro-RO" : "en-US";
@@ -109,51 +153,138 @@ export default function ReservationsPage() {
           </div>
         ) : (
           <div className="space-y-4">
-            {reservations.map((r) => (
-              <div key={r.id} className="bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden hover:border-slate-300 dark:hover:border-white/20 transition-all shadow-sm dark:shadow-none">
-                <div className="flex flex-col md:flex-row">
-                  <div className="md:w-48 h-36 md:h-auto flex-shrink-0">
-                    <img src={r.package.imageUrl || "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=300&h=200&fit=crop"}
-                      alt={language === "en" && r.package.titleEn ? r.package.titleEn : r.package.title} className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="flex-grow p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                    <div>
-                      <div className="flex items-center gap-3 mb-1">
-                        <h3 className="font-bold text-slate-900 dark:text-white hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer"
-                          onClick={() => router.push(`/packages/${r.package.id}`)}
-                        >
-                          {language === "en" && r.package.titleEn ? r.package.titleEn : r.package.title}
-                        </h3>
-                        {statusBadge(r.status)}
-                      </div>
-                      <p className="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1 mb-2"><span></span> {language === "en" && r.package.destinationEn ? r.package.destinationEn : r.package.destination}</p>
-                      <div className="flex flex-wrap gap-4 text-xs text-slate-500">
-                        <span> {new Date(r.package.startDate).toLocaleDateString(locale)} — {new Date(r.package.endDate).toLocaleDateString(locale)}</span>
-                        <span> {r.numberOfPeople} {t("res.people")}</span>
-                        <span> {t("res.booked")} {new Date(r.createdAt).toLocaleDateString(locale)}</span>
-                      </div>
+            {reservations.map((r) => {
+              const isFinished = r.status === "CONFIRMED" && new Date(r.package.endDate) < new Date();
+              return (
+                <div key={r.id} className="bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden hover:border-slate-300 dark:hover:border-white/20 transition-all shadow-sm dark:shadow-none">
+                  <div className="flex flex-col md:flex-row">
+                    <div className="md:w-48 h-36 md:h-auto flex-shrink-0">
+                      <img src={r.package.imageUrl || "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=300&h=200&fit=crop"}
+                        alt={language === "en" && r.package.titleEn ? r.package.titleEn : r.package.title} className="w-full h-full object-cover"
+                      />
                     </div>
-                    <div className="flex items-center gap-4">
-                      <div className="text-right">
-                        <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">€{r.totalPrice.toFixed(2)}</div>
-                        <div className="text-xs text-slate-500">{t("res.total")}</div>
+                    <div className="flex-grow p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                      <div>
+                        <div className="flex items-center gap-3 mb-1">
+                          <h3 className="font-bold text-slate-900 dark:text-white hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer"
+                            onClick={() => router.push(`/packages/${r.package.id}`)}
+                          >
+                            {language === "en" && r.package.titleEn ? r.package.titleEn : r.package.title}
+                          </h3>
+                          {statusBadge(r.status)}
+                        </div>
+                        <p className="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1 mb-2"><span></span> {language === "en" && r.package.destinationEn ? r.package.destinationEn : r.package.destination}</p>
+                        <div className="flex flex-wrap gap-4 text-xs text-slate-500">
+                          <span> {new Date(r.package.startDate).toLocaleDateString(locale)} - {new Date(r.package.endDate).toLocaleDateString(locale)}</span>
+                          <span> {r.numberOfPeople} {t("res.people")}</span>
+                          <span> {t("res.booked")} {new Date(r.createdAt).toLocaleDateString(locale)}</span>
+                        </div>
+                        {r.review && (
+                          <div className="mt-3 bg-slate-50 dark:bg-slate-900/50 p-3 rounded-lg border border-slate-100 dark:border-white/5">
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="text-amber-500 text-sm">
+                                {"★".repeat(r.review.rating)}{"☆".repeat(5 - r.review.rating)}
+                              </div>
+                              <span className="text-xs font-semibold text-slate-400">
+                                {language === "en" ? "Your review" : "Recenzia ta"}
+                              </span>
+                            </div>
+                            <p className="text-sm text-slate-600 dark:text-slate-300 italic">"{r.review.comment}"</p>
+                          </div>
+                        )}
                       </div>
-                      {r.status !== "CANCELLED" && (
-                        <button onClick={() => cancelReservation(r.id)}
-                          className="px-4 py-2 rounded-xl border border-red-300 dark:border-red-500/30 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all text-sm font-medium"
-                        >
-                          {t("res.cancel")}
-                        </button>
-                      )}
+                      <div className="flex items-center gap-4">
+                        <div className="text-right">
+                          <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">€{r.totalPrice.toFixed(2)}</div>
+                          <div className="text-xs text-slate-500">{t("res.total")}</div>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          {r.status !== "CANCELLED" && !isFinished && (
+                            <button onClick={() => cancelReservation(r.id)}
+                              className="px-4 py-2 rounded-xl border border-red-300 dark:border-red-500/30 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all text-sm font-medium"
+                            >
+                              {t("res.cancel")}
+                            </button>
+                          )}
+                          {isFinished && !r.review && (
+                            <button onClick={() => openReviewModal(r.id)}
+                              className="px-4 py-2 rounded-xl bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-200 dark:hover:bg-emerald-500/30 transition-all text-sm font-medium"
+                            >
+                              {language === "en" ? "Leave Review" : "Lasă o recenzie"}
+                            </button>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>
+
+      {/* Review Modal */}
+      {reviewModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl w-full max-w-md p-6 border border-slate-200 dark:border-white/10 shadow-2xl">
+            <h2 className="text-2xl font-bold mb-4">{language === "en" ? "Review Your Trip" : "Evaluează vacanța"}</h2>
+            {reviewError && (
+              <div className="mb-4 p-3 rounded-lg bg-red-100 text-red-700 dark:bg-red-500/10 dark:text-red-400 text-sm">
+                {reviewError}
+              </div>
+            )}
+            <form onSubmit={submitReview}>
+              <div className="mb-5 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl">
+                <span className="font-medium text-slate-700 dark:text-slate-300">
+                  {language === "en" ? "Rating:" : "Notă:"}
+                </span>
+                <div className="flex gap-1">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      type="button"
+                      key={star}
+                      className={`text-3xl focus:outline-none transition-colors ${rating >= star ? "text-amber-500" : "text-slate-300 dark:text-slate-600"}`}
+                      onClick={() => setRating(star)}
+                    >
+                      ★
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mb-5">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                  {language === "en" ? "Share your experience (comment):" : "Împărtășește experiența ta (comentariu):"}
+                </label>
+                <textarea
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  placeholder={language === "en" ? "I loved the location and the guide was fantastic..." : "Locația a fost minunată, iar ghidul fantastic..."}
+                  className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 transition-all min-h-[120px]"
+                ></textarea>
+              </div>
+
+              <div className="flex justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => setReviewModalOpen(false)}
+                  className="px-5 py-2.5 rounded-xl border border-slate-300 dark:border-white/20 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 transition-all font-medium"
+                >
+                  {language === "en" ? "Cancel" : "Anulează"}
+                </button>
+                <button
+                  type="submit"
+                  disabled={reviewLoading}
+                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-medium hover:from-emerald-600 hover:to-cyan-600 transition-all shadow-md disabled:opacity-50"
+                >
+                  {reviewLoading ? (language === "en" ? "Submitting..." : "Se trimite...") : (language === "en" ? "Submit Review" : "Trimite Recenzia")}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

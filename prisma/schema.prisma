@@ -15,6 +15,7 @@ model User {
   role         String        @default("USER")
   createdAt    DateTime      @default(now())
   reservations Reservation[]
+  reviews      Review[]
 }
 
 model Package {
@@ -32,6 +33,7 @@ model Package {
   imageUrl      String        @default("")
   createdAt     DateTime      @default(now())
   reservations  Reservation[]
+  reviews       Review[]
 }
 
 model Reservation {
@@ -44,4 +46,18 @@ model Reservation {
   createdAt      DateTime @default(now())
   user           User     @relation(fields: [userId], references: [id])
   package        Package  @relation(fields: [packageId], references: [id])
+  review         Review?
+}
+
+model Review {
+  id             String      @id @default(cuid())
+  rating         Int         // 1 to 5
+  comment        String
+  userId         String
+  packageId      String
+  reservationId  String      @unique
+  createdAt      DateTime    @default(now())
+  user           User        @relation(fields: [userId], references: [id])
+  package        Package     @relation(fields: [packageId], references: [id])
+  reservation    Reservation @relation(fields: [reservationId], references: [id])
 }

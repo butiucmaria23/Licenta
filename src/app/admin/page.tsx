@@ -175,7 +175,7 @@ export default function AdminDashboard() {
             <motion.div 
               initial="hidden" animate="visible"
               variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.2 } } }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8"
+              className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8"
             >
               <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}>
                 <Link
@@ -216,6 +216,20 @@ export default function AdminDashboard() {
                   </h3>
                   <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
                     {t("admin.newPackageDesc")}
+                  </p>
+                </Link>
+              </motion.div>
+              <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}>
+                <Link
+                  href="/admin/users"
+                  className="block bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-white/10 p-6 hover:border-violet-500/50 dark:hover:border-violet-500/30 hover:shadow-md dark:hover:bg-slate-800/70 transition-all group shadow-sm dark:shadow-none"
+                >
+                  <div className="text-3xl mb-3"></div>
+                  <h3 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
+                    {language === "ro" ? "Utilizatori" : "Users"}
+                  </h3>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                    {language === "ro" ? "Gestioneaza utilizatorii inregistrati" : "Manage registered users"}
                   </p>
                 </Link>
               </motion.div>

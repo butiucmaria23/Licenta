@@ -75,15 +75,22 @@ export async function POST(request: NextRequest) {
 
     // Check availability
     const totalReservations = await prisma.reservation.aggregate({
-      where: { packageId, status: { not: "CANCELLED" } },
+      where: { 
+        packageId, 
+        status: { not: "CANCELLED" } 
+      },
       _sum: { numberOfPeople: true },
     });
 
     const bookedSlots = totalReservations._sum.numberOfPeople || 0;
-    if (bookedSlots + numberOfPeople > pkg.maxSlots) {
+    const remainingSlots = pkg.maxSlots - bookedSlots;
+
+    if (remainingSlots <= 0 || numberOfPeople > remainingSlots) {
       return NextResponse.json(
         {
-          error: `Nu sunt suficiente locuri disponibile. Locuri rămase: ${pkg.maxSlots - bookedSlots}`,
+          error: remainingSlots <= 0 
+            ? "Pachetul este epuizat. Nu mai sunt locuri disponibile." 
+            : `Nu sunt suficiente locuri. Locuri rămase: ${remainingSlots}`,
         },
         { status: 400 }
       );

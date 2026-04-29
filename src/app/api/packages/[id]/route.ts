@@ -49,6 +49,27 @@ export async function PUT(
 
     const { id } = await params;
     const body = await request.json();
+    const newMaxSlots = parseInt(body.maxSlots);
+
+    // Check existing reservations total
+    const totalReservations = await prisma.reservation.aggregate({
+      where: { 
+        packageId: id, 
+        status: { not: "CANCELLED" } 
+      },
+      _sum: { numberOfPeople: true },
+    });
+
+    const bookedSlots = totalReservations._sum.numberOfPeople || 0;
+
+    if (newMaxSlots < bookedSlots) {
+      return NextResponse.json(
+        { 
+          error: `Capacitatea nu poate fi mai mică decât numărul actual de rezervări (${bookedSlots} persoane).` 
+        },
+        { status: 400 }
+      );
+    }
 
     const pkg = await prisma.package.update({
       where: { id },
@@ -59,7 +80,7 @@ export async function PUT(
         price: parseFloat(body.price),
         startDate: new Date(body.startDate),
         endDate: new Date(body.endDate),
-        maxSlots: parseInt(body.maxSlots),
+        maxSlots: newMaxSlots,
         imageUrl: body.imageUrl || "",
       },
     });

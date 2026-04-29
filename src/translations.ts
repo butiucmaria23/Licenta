@@ -81,6 +81,7 @@ export const translations = {
     "pkg.notFound": "Pachetul nu a fost găsit.",
     "pkg.bookSuccess": "Rezervare confirmată! Total: €",
     "pkg.bookError": "Eroare la rezervare",
+    "pkg.noSpots": "Nu mai sunt locuri disponibile pentru acest pachet.",
     // Reservations page
     "res.title": "Rezervările",
     "res.titleHighlight": "mele",
@@ -233,6 +234,7 @@ export const translations = {
     "pkg.notFound": "Package not found.",
     "pkg.bookSuccess": "Booking confirmed! Total: €",
     "pkg.bookError": "Error processing booking",
+    "pkg.noSpots": "No available spots left for this package.",
     // Reservations page
     "res.title": "My",
     "res.titleHighlight": "reservations",

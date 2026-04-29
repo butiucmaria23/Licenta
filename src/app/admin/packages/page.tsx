@@ -15,7 +15,7 @@ interface Package {
   startDate: string;
   endDate: string;
   maxSlots: number;
-  _count: { reservations: number };
+  reservations: { numberOfPeople: number }[];
 }
 
 export default function AdminPackagesPage() {
@@ -124,7 +124,7 @@ export default function AdminPackagesPage() {
                       <td className="py-4 px-5 text-slate-500 dark:text-slate-400">{pkg.maxSlots}</td>
                       <td className="py-4 px-5">
                         <span className="px-2 py-0.5 rounded-full bg-cyan-100 dark:bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 text-xs font-medium">
-                          {pkg._count.reservations}
+                          {pkg.reservations?.reduce((sum, r) => sum + r.numberOfPeople, 0) || 0}
                         </span>
                       </td>
                       <td className="py-4 px-5 text-right space-x-2">

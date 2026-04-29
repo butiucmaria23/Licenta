@@ -132,8 +132,8 @@ export default function PackagesPage() {
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             >
               {packages.map((pkg) => {
-                const slotsUsed = pkg._count?.reservations || 0;
-                const available = pkg.maxSlots - slotsUsed;
+                const slotsUsed = pkg.reservations?.reduce((sum, r) => sum + r.numberOfPeople, 0) || 0;
+                const available = Math.max(0, pkg.maxSlots - slotsUsed);
                 return (
                   <motion.div key={pkg.id} variants={{ hidden: { opacity: 0, y: 20, scale: 0.95 }, visible: { opacity: 1, y: 0, scale: 1 } }}>
                     <Link href={`/packages/${pkg.id}`}

@@ -37,7 +37,10 @@ export async function GET(request: NextRequest) {
       where,
       orderBy: { createdAt: "desc" },
       include: {
-        _count: { select: { reservations: true } },
+        reservations: {
+          where: { status: { not: "CANCELLED" } },
+          select: { numberOfPeople: true, status: true },
+        },
       },
     });
 

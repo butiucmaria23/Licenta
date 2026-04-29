@@ -34,7 +34,7 @@ export default function PackageDetailPage() {
   }, [id]);
 
   const bookedSlots = pkg?.reservations?.filter((r) => r.status !== "CANCELLED").reduce((sum, r) => sum + r.numberOfPeople, 0) || 0;
-  const available = pkg ? pkg.maxSlots - bookedSlots : 0;
+  const available = pkg ? Math.max(0, pkg.maxSlots - bookedSlots) : 0;
 
   const handleBook = async () => {
     if (!user) { router.push("/login"); return; }
@@ -156,7 +156,7 @@ export default function PackageDetailPage() {
                     <button
                       type="button"
                       onClick={() => setNumberOfPeople(Math.max(1, (numberOfPeople as number) - 1))}
-                      disabled={(numberOfPeople as number) <= 1}
+                      disabled={(numberOfPeople as number) <= 1 || available <= 0}
                       className="w-12 h-12 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-700/50 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 text-2xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-all disabled:opacity-40 disabled:cursor-not-allowed select-none shadow-sm"
                     >
                       −
@@ -180,12 +180,13 @@ export default function PackageDetailPage() {
                         if (!n || n < 1) setNumberOfPeople(1);
                         else if (n > available) setNumberOfPeople(available);
                       }}
-                      className="w-20 text-center text-2xl font-bold px-2 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-700/50 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 transition-all"
+                      className="w-20 text-center text-2xl font-bold px-2 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-700/50 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 transition-all disabled:opacity-50"
+                      disabled={available <= 0}
                     />
                     <button
                       type="button"
                       onClick={() => setNumberOfPeople(Math.min(available, (numberOfPeople as number) + 1))}
-                      disabled={(numberOfPeople as number) >= available}
+                      disabled={(numberOfPeople as number) >= available || available <= 0}
                       className="w-12 h-12 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-700/50 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 text-2xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-all disabled:opacity-40 disabled:cursor-not-allowed select-none shadow-sm"
                     >
                       +
@@ -207,6 +208,12 @@ export default function PackageDetailPage() {
                     <span className="font-bold text-emerald-600 dark:text-emerald-400 text-lg">€{(pkg.price * (numberOfPeople || 1)).toFixed(2)}</span>
                   </div>
                 </div>
+
+                {available <= 0 && (
+                  <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 text-amber-700 dark:text-amber-400 text-sm font-medium">
+                    {t("pkg.noSpots")}
+                  </div>
+                )}
 
                 {message && (
                   <div className={`p-3 rounded-xl text-sm ${message.type === "success" ? "bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-400" : "bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-red-700 dark:text-red-400"}`}>

@@ -94,7 +94,7 @@ export default function AdminReservationsPage() {
       <div className="max-w-7xl mx-auto px-4 pb-20 -mt-4">
         {reservations.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-4xl mb-4"></p>
+            <p className="text-4xl mb-4">📋</p>
             <p className="text-xl text-slate-500 dark:text-slate-400">{t("admin.noReservations")}</p>
           </div>
         ) : (

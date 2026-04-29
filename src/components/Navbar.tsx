@@ -74,7 +74,7 @@ export default function Navbar() {
                   title={theme === 'light' ? 'Switch to dark' : theme === 'dark' ? 'Switch to system' : 'Switch to light'}
                   className="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 transition-all text-base"
                 >
-                  {theme === 'dark' ? '' : theme === 'system' ? '' : ''}
+                  {theme === 'dark' ? '🌙' : theme === 'system' ? '🖥️' : '☀️'}
                 </button>
               )}
             </div>

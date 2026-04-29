@@ -117,7 +117,7 @@ export default function PackagesPage() {
           </div>
         ) : packages.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-4xl mb-4">🔍</p>
+            <p className="text-4xl mb-4"></p>
             <p className="text-xl text-slate-500 dark:text-slate-400">{t("pkgs.noResults")}</p>
             <button onClick={clearFilters} className="mt-4 text-emerald-600 dark:text-emerald-400 hover:underline">{t("pkgs.resetFilters")}</button>
           </div>

@@ -67,7 +67,7 @@ export default function PackageDetailPage() {
   if (!pkg) return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white transition-colors">
       <div className="text-center">
-        <p className="text-4xl mb-4">🔍</p>
+        <p className="text-4xl mb-4"></p>
         <p className="text-xl text-slate-500 dark:text-slate-400">{t("pkg.notFound")}</p>
         <button onClick={() => router.push("/packages")} className="mt-4 text-emerald-600 dark:text-emerald-400 hover:underline">
           {t("pkg.back")}

@@ -18,7 +18,7 @@ interface Package {
   endDate: string;
   maxSlots: number;
   imageUrl: string;
-  _count: { reservations: number };
+  reservations: { numberOfPeople: number }[];
 }
 
 export default function PackagesPage() {

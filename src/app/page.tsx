@@ -89,21 +89,7 @@ export default function HomePage() {
             )}
           </div>
 
-          {/* Stats */}
-          <div className="mt-16 grid grid-cols-3 gap-8 max-w-lg mx-auto animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
-            <div>
-              <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">50+</div>
-              <div className="text-sm text-slate-600 dark:text-slate-500">{t("stats.destinations")}</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-cyan-600 dark:text-cyan-400">1000+</div>
-              <div className="text-sm text-slate-600 dark:text-slate-500">{t("stats.clients")}</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">4.9</div>
-              <div className="text-sm text-slate-600 dark:text-slate-500">{t("stats.rating")}</div>
-            </div>
-          </div>
+
         </div>
       </section>
 

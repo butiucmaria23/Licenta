@@ -152,12 +152,12 @@ export default function PackageDetailPage() {
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm text-slate-500 dark:text-slate-400 mb-1.5">{t("pkg.numPeople")}</label>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center gap-4">
                     <button
                       type="button"
                       onClick={() => setNumberOfPeople(Math.max(1, (numberOfPeople as number) - 1))}
                       disabled={(numberOfPeople as number) <= 1}
-                      className="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-700/50 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 text-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-all disabled:opacity-40 disabled:cursor-not-allowed select-none"
+                      className="w-12 h-12 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-700/50 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 text-2xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-all disabled:opacity-40 disabled:cursor-not-allowed select-none shadow-sm"
                     >
                       −
                     </button>
@@ -180,13 +180,13 @@ export default function PackageDetailPage() {
                         if (!n || n < 1) setNumberOfPeople(1);
                         else if (n > available) setNumberOfPeople(available);
                       }}
-                      className="flex-1 text-center text-xl font-bold px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-700/50 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 transition-all"
+                      className="w-20 text-center text-2xl font-bold px-2 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-700/50 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 transition-all"
                     />
                     <button
                       type="button"
                       onClick={() => setNumberOfPeople(Math.min(available, (numberOfPeople as number) + 1))}
                       disabled={(numberOfPeople as number) >= available}
-                      className="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-700/50 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 text-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-all disabled:opacity-40 disabled:cursor-not-allowed select-none"
+                      className="w-12 h-12 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-700/50 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 text-2xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-all disabled:opacity-40 disabled:cursor-not-allowed select-none shadow-sm"
                     >
                       +
                     </button>

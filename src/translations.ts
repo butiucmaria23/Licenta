@@ -5,7 +5,7 @@ export const translations = {
     // Nav
     "nav.home": "Acasă",
     "nav.packages": "Pachete",
-    "nav.myOrders": "Rezervările Mele",
+    "nav.myOrders": "Rezervările mele",
     "nav.admin": "️ Admin",
     "nav.login": "Autentificare",
     "nav.register": "Înregistrare",
@@ -83,7 +83,7 @@ export const translations = {
     "pkg.bookError": "Eroare la rezervare",
     // Reservations page
     "res.title": "Rezervările",
-    "res.titleHighlight": "Mele",
+    "res.titleHighlight": "mele",
     "res.subtitle": "Istoric și managementul rezervărilor tale",
     "res.empty": "Nu ai nicio rezervare încă",
     "res.emptyDesc": "Explorează pachetele noastre și rezervă vacanța perfectă!",
@@ -145,13 +145,13 @@ export const translations = {
     "admin.confirmed": "Confirmată",
     "admin.cancelled": "Anulată",
     "admin.pending": "În așteptare",
-    "admin.revenueTrend": "Trend Venituri (Ultimele Rezervări)",
-    "admin.revenuePerPackage": "Venituri per Pachet",
+    "admin.revenueTrend": "Trend venituri (Ultimele rezervări)",
+    "admin.revenuePerPackage": "Venituri per pachet",
     // Footer
     "footer.desc": "Platformă modernă pentru gestionarea și rezervarea pachetelor turistice. Descoperă destinații unice la cele mai bune prețuri.",
     "footer.nav": "Navigare",
     "footer.contact": "Contact",
-    "footer.rights": "Pack&Go — Lucrare de Licență. Toate drepturile rezervate.",
+    "footer.rights": "Pack&Go — Lucrare de licență. Toate drepturile rezervate.",
   },
   en: {
     // Nav

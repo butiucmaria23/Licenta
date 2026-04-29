@@ -9,7 +9,7 @@ import { useTheme } from "next-themes";
 export default function Navbar() {
   const { user, logout, isAdmin, isLoading } = useAuth();
   const { t, language, setLanguage } = useLanguage();
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -21,7 +21,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <span className="text-2xl">✈️</span>
+            <span className="text-2xl"></span>
             <span className="text-xl font-bold bg-gradient-to-r from-emerald-500 to-cyan-500 dark:from-emerald-400 dark:to-cyan-400 bg-clip-text text-transparent group-hover:from-emerald-600 group-hover:to-cyan-600 dark:group-hover:from-emerald-300 dark:group-hover:to-cyan-300 transition-all">
               Pack&Go
             </span>
@@ -70,11 +70,11 @@ export default function Navbar() {
               </button>
               {mounted && (
                 <button
-                  onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                  title={theme === 'light' ? 'Switch to dark' : 'Switch to light'}
+                  onClick={() => setTheme(resolvedTheme === 'light' ? 'dark' : 'light')}
+                  title={resolvedTheme === 'light' ? 'Switch to dark' : 'Switch to light'}
                   className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all text-xl shadow-sm"
                 >
-                  {theme === 'dark' ? '🌙' : '☀️'}
+                  {resolvedTheme === 'dark' ? '🌙' : '☀️'}
                 </button>
               )}
             </div>
@@ -119,10 +119,10 @@ export default function Navbar() {
             </button>
             {mounted && (
               <button
-                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+                onClick={() => setTheme(resolvedTheme === 'light' ? 'dark' : 'light')}
                 className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 text-xl shadow-sm"
               >
-                {theme === 'dark' ? '🌙' : '☀️'}
+                {resolvedTheme === 'dark' ? '🌙' : '☀️'}
               </button>
             )}
             <button

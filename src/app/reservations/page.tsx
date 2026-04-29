@@ -222,7 +222,7 @@ export default function ReservationsPage() {
                             <button onClick={() => openReviewModal(r.id)}
                               className="px-4 py-2 rounded-xl bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-200 dark:hover:bg-emerald-500/30 transition-all text-sm font-medium"
                             >
-                              {language === "en" ? "Leave Review" : "Lasă o recenzie"}
+                              {language === "en" ? "Leave review" : "Lasă o recenzie"}
                             </button>
                           )}
                         </div>
@@ -248,7 +248,7 @@ export default function ReservationsPage() {
             initial={{ scale: 0.9, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 20 }}
             className="bg-white dark:bg-slate-900 rounded-2xl w-full max-w-md p-6 border border-slate-200 dark:border-white/10 shadow-2xl"
           >
-            <h2 className="text-2xl font-bold mb-4">{language === "en" ? "Review Your Trip" : "Evaluează vacanța"}</h2>
+            <h2 className="text-2xl font-bold mb-4">{language === "en" ? "Review your trip" : "Evaluează vacanța"}</h2>
             {reviewError && (
               <div className="mb-4 p-3 rounded-lg bg-red-100 text-red-700 dark:bg-red-500/10 dark:text-red-400 text-sm">
                 {reviewError}
@@ -298,7 +298,7 @@ export default function ReservationsPage() {
                   disabled={reviewLoading}
                   className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-medium hover:from-emerald-600 hover:to-cyan-600 transition-all shadow-md disabled:opacity-50"
                 >
-                  {reviewLoading ? (language === "en" ? "Submitting..." : "Se trimite...") : (language === "en" ? "Submit Review" : "Trimite Recenzia")}
+                  {reviewLoading ? (language === "en" ? "Submitting..." : "Se trimite...") : (language === "en" ? "Submit review" : "Trimite recenzia")}
                 </button>
               </div>
             </form>

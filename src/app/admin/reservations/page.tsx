@@ -80,7 +80,7 @@ export default function AdminReservationsPage() {
           <h1 className="text-4xl font-bold">
             {language === "ro" ? "Toate" : "All"}{" "}
             <span className="bg-gradient-to-r from-cyan-500 to-emerald-500 dark:from-cyan-400 dark:to-emerald-400 bg-clip-text text-transparent">
-              {language === "ro" ? "Rezervările" : "Reservations"}
+              {language === "ro" ? "rezervările" : "reservations"}
             </span>
           </h1>
           <p className="text-slate-500 dark:text-slate-400 mt-2">

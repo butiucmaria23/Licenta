@@ -62,7 +62,7 @@ export default function AdminUsersPage() {
           <h1 className="text-4xl font-bold">
             {language === "ro" ? "Utilizatori" : "Users"}{" "}
             <span className="bg-gradient-to-r from-violet-500 to-purple-500 dark:from-violet-400 dark:to-purple-400 bg-clip-text text-transparent">
-              {language === "ro" ? "Inregistrati" : "Registered"}
+              {language === "ro" ? "înregistrați" : "registered"}
             </span>
           </h1>
           <p className="text-slate-500 dark:text-slate-400 mt-2">

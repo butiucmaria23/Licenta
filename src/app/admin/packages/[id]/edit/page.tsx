@@ -143,7 +143,7 @@ export default function EditPackagePage() {
             <button type="submit" disabled={saving}
               className="px-8 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold hover:from-amber-600 hover:to-orange-600 dark:hover:from-amber-400 dark:hover:to-orange-400 transition-all shadow-lg shadow-amber-500/25 disabled:opacity-50"
             >
-              {saving ? lbl("Se salvează...", "Saving...") : lbl(" Salvează Modificările", " Save Changes")}
+              {saving ? lbl("Se salvează...", "Saving...") : lbl(" Salvează modificările", " Save changes")}
             </button>
             <button type="button" onClick={() => router.push("/admin/packages")}
               className="px-8 py-3 rounded-xl border border-slate-300 dark:border-white/20 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 transition-all font-medium"

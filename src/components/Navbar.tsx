@@ -122,7 +122,7 @@ export default function Navbar() {
                 onClick={() => setTheme(theme === 'light' ? 'dark' : theme === 'dark' ? 'system' : 'light')}
                 className="p-2 rounded-lg text-slate-600 dark:text-slate-300"
               >
-                {theme === 'dark' ? '' : theme === 'system' ? '' : ''}
+                {theme === 'dark' ? '🌙' : theme === 'system' ? '🖥️' : '☀️'}
               </button>
             )}
             <button

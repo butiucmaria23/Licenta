@@ -90,7 +90,7 @@ export default function AdminDashboard() {
   }
 
   let chartData: { date: string; revenue: number }[] = [];
-  let pieChartData: { name: string; value: number }[] = [];
+  let pieChartData: { name: string; value: number; status: string }[] = [];
   
   if (stats && stats.allReservations && stats.allReservations.length > 0) {
     const accMap = new Map();

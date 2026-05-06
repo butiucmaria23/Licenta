@@ -107,31 +107,36 @@ export default function AdminDashboard() {
     
     chartData = Array.from(accMap.values()).reverse();
 
-    const destinationRevenue = stats.allReservations.reduce((acc, r) => {
-      const dest = language === "en" && r.package.destinationEn ? r.package.destinationEn : r.package.destination;
-      acc[dest] = (acc[dest] || 0) + r.totalPrice;
+    const statusCounts = stats.allReservations.reduce((acc, r) => {
+      acc[r.status] = (acc[r.status] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
-    pieChartData = Object.entries(destinationRevenue).map(([name, value]) => ({ name, value }));
+    
+    pieChartData = Object.entries(statusCounts).map(([status, value]) => {
+      let name = status;
+      if (status === "CONFIRMED") name = language === "ro" ? "Confirmate" : "Confirmed";
+      if (status === "CANCELLED") name = language === "ro" ? "Anulate" : "Cancelled";
+      if (status === "PENDING_PAYMENT") name = language === "ro" ? "În așteptare" : "Pending";
+      return { name, value, status };
+    });
   } else {
-    // Fake data if empty so the chart is visible
+    // Fake data if empty
     chartData = [
-      { date: "March 2026", revenue: 4200 },
-      { date: "April 2026", revenue: 8600 },
+      { date: "May 1", revenue: 4200 },
+      { date: "May 2", revenue: 8600 },
     ];
     pieChartData = [
-      { name: "Santorini Dream", value: 4000 },
-      { name: "Safari Kenya", value: 3000 },
-      { name: "Bali Paradise", value: 2000 },
+      { name: "Confirmed", value: 60, status: "CONFIRMED" },
+      { name: "Pending", value: 25, status: "PENDING_PAYMENT" },
+      { name: "Cancelled", value: 15, status: "CANCELLED" },
     ];
   }
-  
-  const COLORS = [
-    '#10b981', '#06b6d4', '#f59e0b', '#8b5cf6', '#ec4899',
-    '#ef4444', '#f97316', '#84cc16', '#0ea5e9', '#6366f1',
-    '#d946ef', '#f43f5e', '#14b8a6', '#fcd34d', '#4ade80',
-    '#3b82f6', '#a855f7', '#fb923c', '#2dd4bf', '#fbbf24'
-  ];
+
+  const STATUS_COLORS: Record<string, string> = {
+    CONFIRMED: "#10b981",
+    PENDING_PAYMENT: "#f59e0b",
+    CANCELLED: "#ef4444",
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white transition-colors duration-300">
@@ -278,7 +283,7 @@ export default function AdminDashboard() {
               </div>
 
               <div className="bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-white/10 p-6 shadow-sm dark:shadow-none">
-                <h2 className="text-xl font-bold mb-6 text-slate-900 dark:text-white">{t("admin.revenueByDestination")}</h2>
+                <h2 className="text-xl font-bold mb-6 text-slate-900 dark:text-white">{t("admin.statusDistribution")}</h2>
                 <div className="w-full h-80">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
@@ -291,13 +296,13 @@ export default function AdminDashboard() {
                         paddingAngle={5}
                         dataKey="value"
                       >
-                        {pieChartData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        {pieChartData.map((entry: any, index) => (
+                          <Cell key={`cell-${index}`} fill={STATUS_COLORS[entry.status] || "#94a3b8"} />
                         ))}
                       </Pie>
                       <Tooltip 
                         contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '8px', color: '#fff' }}
-                        itemStyle={{ color: '#34d399' }}
+                        itemStyle={{ color: '#fff' }}
                       />
                     </PieChart>
                   </ResponsiveContainer>

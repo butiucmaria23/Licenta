@@ -100,7 +100,7 @@ export default function ReservationsPage() {
 
   const handlePayNow = async (reservationId: string) => {
     try {
-      const checkoutRes = await fetch("/api/checkout", {
+      const checkoutRes = await fetch("/api/payments/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ reservationId }),

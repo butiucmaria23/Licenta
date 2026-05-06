@@ -20,14 +20,6 @@ export default function PaymentCancelPage() {
           Procesul de plată a fost întrerupt. Rezervarea ta rămâne în așteptare.
         </p>
         <div className="space-y-3">
-          {reservationId && (
-            <Link
-              href={`/packages/${reservationId}`} // This is actually the reservation id, but usually people go back to the package or reservations
-              className="hidden"
-            >
-              Reîncearcă plata
-            </Link>
-          )}
           <Link
             href="/reservations"
             className="inline-block w-full py-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-all border border-slate-200 dark:border-white/10"

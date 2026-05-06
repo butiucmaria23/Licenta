@@ -27,7 +27,7 @@ export default function PaymentSuccessPage() {
         </div>
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Plată reușită!</h1>
         <p className="text-slate-600 dark:text-slate-400 mb-8">
-          Rezervarea ta a fost confirmată. Vei fi redirecționat către pagina de rezervări în câteva secunde.
+          Plata ta a fost procesată cu succes! Rezervarea ta va apărea ca fiind confirmată imediat ce primim confirmarea finală de la procesatorul de plăți (de obicei durează doar câteva secunde). Vei fi redirecționat către pagina de rezervări.
         </p>
         <Link
           href="/reservations"

@@ -123,12 +123,14 @@ export default function ReservationsPage() {
       PENDING:   "bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20",
       PENDING_PAYMENT: "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20",
       CANCELLED: "bg-red-100 text-red-700 border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
+      PAYMENT_FAILED: "bg-orange-100 text-orange-700 border-orange-200 dark:bg-orange-500/10 dark:text-orange-400 dark:border-orange-500/20",
     };
     const labels: Record<string, string> = {
       CONFIRMED: t("res.confirmed"),
       PENDING: t("res.pending"),
       PENDING_PAYMENT: language === "en" ? "Pending Payment" : "Așteaptă plata",
       CANCELLED: t("res.cancelled"),
+      PAYMENT_FAILED: language === "en" ? "Payment Failed" : "Plată eșuată",
     };
     return (
       <span className={`px-3 py-1 rounded-full text-xs font-medium border ${styles[status] || styles.PENDING}`}>

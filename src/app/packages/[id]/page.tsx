@@ -40,8 +40,7 @@ export default function PackageDetailPage() {
     if (!user) { router.push("/login"); return; }
     setBooking(true); setMessage(null);
     try {
-      // 1. Create the reservation (status will be PENDING_PAYMENT)
-      const res = await fetch("/api/reservations", {
+      const res = await fetch("/api/payments/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ packageId: id, numberOfPeople: numberOfPeople || 1 }),
@@ -49,18 +48,8 @@ export default function PackageDetailPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
 
-      // 2. Initiate Stripe Checkout
-      const checkoutRes = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ reservationId: data.id }),
-      });
-      const checkoutData = await checkoutRes.json();
-      if (!checkoutRes.ok) throw new Error(checkoutData.error);
-
-      // 3. Redirect to Stripe
-      if (checkoutData.url) {
-        window.location.href = checkoutData.url;
+      if (data.url) {
+        window.location.href = data.url;
       } else {
         throw new Error("Nu s-a putut genera link-ul de plată");
       }

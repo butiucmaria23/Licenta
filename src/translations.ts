@@ -148,6 +148,7 @@ export const translations = {
     "admin.pending": "În așteptare",
     "admin.revenueTrend": "Trend venituri (Ultimele rezervări)",
     "admin.revenuePerPackage": "Venituri per pachet",
+    "admin.revenueByDestination": "Venituri pe destinație",
     // Footer
     "footer.desc": "Platformă modernă pentru gestionarea și rezervarea pachetelor turistice. Descoperă destinații unice la cele mai bune prețuri.",
     "footer.nav": "Navigare",
@@ -301,6 +302,7 @@ export const translations = {
     "admin.pending": "Pending",
     "admin.revenueTrend": "Revenue trend (Recent reservations)",
     "admin.revenuePerPackage": "Revenue per package",
+    "admin.revenueByDestination": "Revenue by destination",
     // Footer
     "footer.desc": "Modern platform for managing and booking travel packages. Discover unique destinations at the best prices.",
     "footer.nav": "Navigation",

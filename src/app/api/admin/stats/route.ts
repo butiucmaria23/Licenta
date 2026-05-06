@@ -22,13 +22,13 @@ export async function GET(request: NextRequest) {
           orderBy: { createdAt: "desc" },
           include: {
             user: { select: { name: true } },
-            package: { select: { title: true, titleEn: true } },
+            package: { select: { title: true, titleEn: true, destination: true, destinationEn: true } },
           },
         }),
         prisma.reservation.findMany({
           orderBy: { createdAt: "desc" },
           include: {
-            package: { select: { title: true, titleEn: true } },
+            package: { select: { title: true, titleEn: true, destination: true, destinationEn: true } },
           },
         }),
       ]);

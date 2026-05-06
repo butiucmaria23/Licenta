@@ -97,12 +97,12 @@ export default function AdminDashboard() {
     
     chartData = Array.from(accMap.values()).reverse();
 
-    const counts = stats.allReservations.reduce((acc, r) => {
-      const pkgTitle = language === "en" && r.package.titleEn ? r.package.titleEn : r.package.title;
-      acc[pkgTitle] = (acc[pkgTitle] || 0) + r.totalPrice;
+    const destinationRevenue = stats.allReservations.reduce((acc, r) => {
+      const dest = language === "en" && r.package.destinationEn ? r.package.destinationEn : r.package.destination;
+      acc[dest] = (acc[dest] || 0) + r.totalPrice;
       return acc;
     }, {} as Record<string, number>);
-    pieChartData = Object.entries(counts).map(([name, value]) => ({ name, value }));
+    pieChartData = Object.entries(destinationRevenue).map(([name, value]) => ({ name, value }));
   } else {
     // Fake data if empty so the chart is visible
     chartData = [
@@ -268,7 +268,7 @@ export default function AdminDashboard() {
               </div>
 
               <div className="bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-white/10 p-6 shadow-sm dark:shadow-none">
-                <h2 className="text-xl font-bold mb-6 text-slate-900 dark:text-white">{t("admin.revenuePerPackage")}</h2>
+                <h2 className="text-xl font-bold mb-6 text-slate-900 dark:text-white">{t("admin.revenueByDestination")}</h2>
                 <div className="w-full h-80">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>

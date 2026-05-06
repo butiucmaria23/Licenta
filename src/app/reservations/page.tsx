@@ -63,7 +63,11 @@ export default function ReservationsPage() {
   const [cancellingId, setCancellingId] = useState("");
 
   const cancelReservation = async (id: string) => {
+    // Diagnostic alert to see if the button click works at all
+    // window.alert("Click detected for ID: " + id); 
+    
     if (!confirm(t("res.cancelConfirm") || "Sigur dorești să anulezi această rezervare?")) return;
+    
     setCancellingId(id);
     try {
       const res = await fetch(`/api/reservations/${id}`, { 
@@ -75,12 +79,14 @@ export default function ReservationsPage() {
         body: JSON.stringify({ status: "CANCELLED" })
       });
       
+      const data = await res.json();
+      
       if (!res.ok) {
-        const data = await res.json();
         throw new Error(data.error || "Eroare la anularea rezervării");
       }
       
-      await fetchReservations();
+      // Force a hard refresh to be 100% sure the UI updates
+      window.location.reload();
     } catch (err) { 
       console.error("Error cancelling reservation:", err);
       alert(err instanceof Error ? err.message : "Eroare la anularea rezervării");

@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌍 Pack&Go
+# Pack&Go
 
 ### Tourist Package Booking Platform
 

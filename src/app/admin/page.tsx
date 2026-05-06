@@ -31,14 +31,24 @@ interface Stats {
     status: string;
     createdAt: string;
     user: { name: string };
-    package: { title: string; titleEn?: string | null };
+    package: { 
+      title: string; 
+      titleEn?: string | null;
+      destination: string;
+      destinationEn?: string | null;
+    };
   }[];
   allReservations: {
     id: string;
     totalPrice: number;
     status: string;
     createdAt: string;
-    package: { title: string; titleEn?: string | null };
+    package: { 
+      title: string; 
+      titleEn?: string | null;
+      destination: string;
+      destinationEn?: string | null;
+    };
   }[];
 }
 

@@ -2,6 +2,42 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getUserFromRequest } from "@/lib/auth";
 
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const user = getUserFromRequest(request);
+    if (!user) {
+      return NextResponse.json({ error: "Autentificare necesară" }, { status: 401 });
+    }
+
+    const { id } = await params;
+
+    const reservation = await prisma.reservation.findUnique({
+      where: { id },
+      include: {
+        package: true,
+        user: true,
+      },
+    });
+
+    if (!reservation) {
+      return NextResponse.json({ error: "Rezervarea nu a fost găsită" }, { status: 404 });
+    }
+
+    // Only the owner or an admin can view the reservation
+    if (reservation.userId !== user.userId && user.role !== "ADMIN") {
+      return NextResponse.json({ error: "Acces neautorizat" }, { status: 403 });
+    }
+
+    return NextResponse.json(reservation);
+  } catch (err) {
+    console.error("Error fetching reservation:", err);
+    return NextResponse.json({ error: "Eroare la preluarea rezervării" }, { status: 500 });
+  }
+}
+
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }

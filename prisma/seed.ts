@@ -167,7 +167,7 @@ async function main() {
       userIdx: Math.floor(Math.random() * 30),
       pkgIdx: Math.floor(Math.random() * 48),  // 0 to 47
       people: Math.floor(Math.random() * 4) + 1,
-      status: Math.random() > 0.8 ? (Math.random() > 0.5 ? "PENDING" : "CANCELLED") : "CONFIRMED",
+      status: Math.random() > 0.8 ? (Math.random() > 0.5 ? "PENDING_PAYMENT" : "CANCELLED") : "CONFIRMED",
       day: Math.floor(Math.random() * 180) + 1,
     });
   }

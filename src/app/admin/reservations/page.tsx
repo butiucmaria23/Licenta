@@ -58,6 +58,7 @@ export default function AdminReservationsPage() {
       CONFIRMED: t("admin.confirmed"),
       CANCELLED: t("admin.cancelled"),
       PENDING:   t("admin.pending"),
+      PENDING_PAYMENT: t("admin.pending"),
     };
     return map[status] || status;
   };

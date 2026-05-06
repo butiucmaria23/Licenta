@@ -108,16 +108,21 @@ export default function AdminDashboard() {
     chartData = Array.from(accMap.values()).reverse();
 
     const statusCounts = stats.allReservations.reduce((acc, r) => {
-      acc[r.status] = (acc[r.status] || 0) + 1;
+      const status = (r.status === "PENDING" || r.status === "PENDING_PAYMENT") ? "PENDING_PAYMENT" : r.status;
+      acc[status] = (acc[status] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
     
     pieChartData = Object.entries(statusCounts).map(([status, value]) => {
       let name = status;
+      const isPending = status === "PENDING" || status === "PENDING_PAYMENT";
       if (status === "CONFIRMED") name = language === "ro" ? "Confirmate" : "Confirmed";
       if (status === "CANCELLED") name = language === "ro" ? "Anulate" : "Cancelled";
-      if (status === "PENDING_PAYMENT") name = language === "ro" ? "În așteptare" : "Pending";
-      return { name, value, status };
+      if (isPending) name = language === "ro" ? "În așteptare" : "Pending";
+      
+      // Use PENDING_PAYMENT as the key for colors
+      const colorKey = isPending ? "PENDING_PAYMENT" : status;
+      return { name, value, status: colorKey };
     });
   } else {
     // Fake data if empty

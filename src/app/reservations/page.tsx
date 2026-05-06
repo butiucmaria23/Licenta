@@ -60,12 +60,19 @@ export default function ReservationsPage() {
     setLoading(false);
   };
 
+  const [cancellingId, setCancellingId] = useState("");
+
   const cancelReservation = async (id: string) => {
     if (!confirm(t("res.cancelConfirm") || "Sigur dorești să anulezi această rezervare?")) return;
+    setCancellingId(id);
     try {
       const res = await fetch(`/api/reservations/${id}`, { 
-        method: "DELETE", 
-        headers: { Authorization: `Bearer ${token}` } 
+        method: "PATCH", 
+        headers: { 
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}` 
+        },
+        body: JSON.stringify({ status: "CANCELLED" })
       });
       
       if (!res.ok) {
@@ -77,6 +84,8 @@ export default function ReservationsPage() {
     } catch (err) { 
       console.error("Error cancelling reservation:", err);
       alert(err instanceof Error ? err.message : "Eroare la anularea rezervării");
+    } finally {
+      setCancellingId("");
     }
   };
 
@@ -252,10 +261,12 @@ export default function ReservationsPage() {
                             </button>
                           )}
                           {r.status !== "CANCELLED" && !isFinished && (
-                            <button onClick={() => cancelReservation(r.id)}
-                              className="px-4 py-2 rounded-xl border border-red-300 dark:border-red-500/30 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all text-sm font-medium"
+                            <button 
+                              onClick={() => cancelReservation(r.id)}
+                              disabled={cancellingId === r.id}
+                              className="px-4 py-2 rounded-xl border border-red-300 dark:border-red-500/30 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all text-sm font-medium disabled:opacity-50"
                             >
-                              {t("res.cancel")}
+                              {cancellingId === r.id ? (language === "en" ? "Cancelling..." : "Anulare...") : t("res.cancel")}
                             </button>
                           )}
                           {isFinished && !r.review && (

@@ -207,14 +207,11 @@ export default function ReservationsPage() {
             className="space-y-4"
           >
             <AnimatePresence>
-            {reservations.map((r) => {
-              const isFinished = r.status === "CONFIRMED" && new Date(r.package.endDate) < new Date();
-              return (
-                <motion.div 
-                  layout
+              {reservations.map((r) => {
+                const isFinished = r.status === "CONFIRMED" && new Date(r.package.endDate) < new Date();
+                return (
+                <div 
                   key={r.id} 
-                  variants={{ hidden: { opacity: 0, x: -20 }, visible: { opacity: 1, x: 0 } }}
-                  exit={{ opacity: 0, x: 20, scale: 0.95 }}
                   className="bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden hover:border-slate-300 dark:hover:border-white/20 transition-all shadow-sm dark:shadow-none"
                 >
                   <div className="flex flex-col md:flex-row">
@@ -258,21 +255,24 @@ export default function ReservationsPage() {
                           <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">€{r.totalPrice.toFixed(2)}</div>
                           <div className="text-xs text-slate-500">{t("res.total")}</div>
                         </div>
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-2 relative z-50">
                           {r.status === "PENDING_PAYMENT" && (
-                            <button onClick={() => handlePayNow(r.id)}
-                              className="px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition-all text-sm font-medium shadow-md shadow-blue-500/20"
+                            <button 
+                              type="button"
+                              onClick={(e) => { e.stopPropagation(); handlePayNow(r.id); }}
+                              className="relative z-50 px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition-all text-sm font-medium shadow-md shadow-blue-500/20 cursor-pointer"
                             >
                               {language === "en" ? "Pay Now" : "Plătește acum"}
                             </button>
                           )}
                           {r.status !== "CANCELLED" && !isFinished && (
                             <button 
-                              onClick={() => cancelReservation(r.id)}
+                              type="button"
+                              onClick={(e) => { e.stopPropagation(); cancelReservation(r.id); }}
                               disabled={cancellingId === r.id}
-                              className="px-4 py-2 rounded-xl border border-red-300 dark:border-red-500/30 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all text-sm font-medium disabled:opacity-50"
+                              className="relative z-50 px-4 py-2 rounded-xl border-2 border-yellow-400 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all text-sm font-bold disabled:opacity-50 cursor-pointer"
                             >
-                              {cancellingId === r.id ? (language === "en" ? "Cancelling..." : "Anulare...") : t("res.cancel")}
+                              {cancellingId === r.id ? "..." : "FORCE CANCEL"}
                             </button>
                           )}
                           {isFinished && !r.review && (
@@ -286,7 +286,7 @@ export default function ReservationsPage() {
                       </div>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
             </AnimatePresence>

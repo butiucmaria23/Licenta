@@ -73,7 +73,7 @@ export default function Navbar() {
                   onClick={() => setTheme(theme === 'light' ? 'dark' : theme === 'dark' ? 'system' : 'light')}
                   className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all text-xs font-medium shadow-sm"
                 >
-                  {theme === 'light' ? 'Dark theme' : theme === 'dark' ? 'System' : 'Light theme'}
+                  {theme === 'light' ? 'Light theme' : theme === 'dark' ? 'Dark theme' : 'System'}
                 </button>
               )}
             </div>
@@ -121,7 +121,7 @@ export default function Navbar() {
                 onClick={() => setTheme(theme === 'light' ? 'dark' : theme === 'dark' ? 'system' : 'light')}
                 className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 text-xs font-medium shadow-sm"
               >
-                {theme === 'light' ? 'Dark theme' : theme === 'dark' ? 'System' : 'Light theme'}
+                {theme === 'light' ? 'Light theme' : theme === 'dark' ? 'Dark theme' : 'System'}
               </button>
             )}
             <button

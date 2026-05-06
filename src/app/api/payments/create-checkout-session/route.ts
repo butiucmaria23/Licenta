@@ -23,6 +23,13 @@ export async function POST(request: NextRequest) {
       if (!reservation || reservation.userId !== user.userId) {
         return NextResponse.json({ error: "Rezervarea nu a fost găsită" }, { status: 404 });
       }
+      // Only allow retry for PENDING_PAYMENT or PAYMENT_FAILED
+      if (reservation.status !== "PENDING_PAYMENT" && reservation.status !== "PAYMENT_FAILED") {
+        return NextResponse.json(
+          { error: "Această rezervare nu poate fi plătită (status: " + reservation.status + ")" },
+          { status: 400 }
+        );
+      }
       pkg = reservation.package;
     } else {
       if (!packageId || !numberOfPeople || numberOfPeople < 1) {

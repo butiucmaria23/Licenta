@@ -2,10 +2,21 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 export default function PaymentCancelPage() {
   const searchParams = useSearchParams();
   const reservationId = searchParams.get("reservation_id");
+
+  useEffect(() => {
+    if (!reservationId) return;
+
+    fetch("/api/payments/cancel", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ reservationId }),
+    }).catch((err) => console.error("Failed to cancel reservation:", err));
+  }, [reservationId]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 px-4">
@@ -17,7 +28,7 @@ export default function PaymentCancelPage() {
         </div>
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Plată anulată</h1>
         <p className="text-slate-600 dark:text-slate-400 mb-8">
-          Procesul de plată a fost întrerupt. Rezervarea ta rămâne în așteptare.
+          Procesul de plată a fost întrerupt. Rezervarea ta a fost anulată.
         </p>
         <div className="space-y-3">
           <Link

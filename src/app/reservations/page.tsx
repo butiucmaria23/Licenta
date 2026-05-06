@@ -64,9 +64,7 @@ export default function ReservationsPage() {
 
   const cancelReservation = async (id: string) => {
     // Diagnostic alert to see if the button click works at all
-    // window.alert("Click detected for ID: " + id); 
-    
-    if (!confirm(t("res.cancelConfirm") || "Sigur dorești să anulezi această rezervare?")) return;
+    window.alert("CLICK DETECTED! Starting cancel for ID: " + id); 
     
     setCancellingId(id);
     try {
@@ -268,7 +266,7 @@ export default function ReservationsPage() {
                           {r.status !== "CANCELLED" && !isFinished && (
                             <button 
                               type="button"
-                              onClick={(e) => { e.stopPropagation(); cancelReservation(r.id); }}
+                              onClick={() => cancelReservation(r.id)}
                               disabled={cancellingId === r.id}
                               className="relative z-50 px-4 py-2 rounded-xl border-2 border-yellow-400 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all text-sm font-bold disabled:opacity-50 cursor-pointer"
                             >

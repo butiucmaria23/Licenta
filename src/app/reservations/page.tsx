@@ -63,8 +63,7 @@ export default function ReservationsPage() {
   const [cancellingId, setCancellingId] = useState("");
 
   const cancelReservation = async (id: string) => {
-    // Diagnostic alert to see if the button click works at all
-    window.alert("CLICK DETECTED! Starting cancel for ID: " + id); 
+    if (!confirm(t("res.cancelConfirm") || "Sigur dorești să anulezi această rezervare?")) return;
     
     setCancellingId(id);
     try {
@@ -83,8 +82,7 @@ export default function ReservationsPage() {
         throw new Error(data.error || "Eroare la anularea rezervării");
       }
       
-      // Force a hard refresh to be 100% sure the UI updates
-      window.location.reload();
+      await fetchReservations();
     } catch (err) { 
       console.error("Error cancelling reservation:", err);
       alert(err instanceof Error ? err.message : "Eroare la anularea rezervării");
@@ -208,8 +206,11 @@ export default function ReservationsPage() {
               {reservations.map((r) => {
                 const isFinished = r.status === "CONFIRMED" && new Date(r.package.endDate) < new Date();
                 return (
-                <div 
+                <motion.div 
+                  layout
                   key={r.id} 
+                  variants={{ hidden: { opacity: 0, x: -20 }, visible: { opacity: 1, x: 0 } }}
+                  exit={{ opacity: 0, x: 20, scale: 0.95 }}
                   className="bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden hover:border-slate-300 dark:hover:border-white/20 transition-all shadow-sm dark:shadow-none"
                 >
                   <div className="flex flex-col md:flex-row">
@@ -253,24 +254,21 @@ export default function ReservationsPage() {
                           <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">€{r.totalPrice.toFixed(2)}</div>
                           <div className="text-xs text-slate-500">{t("res.total")}</div>
                         </div>
-                        <div className="flex flex-col gap-2 relative z-50">
+                        <div className="flex flex-col gap-2">
                           {r.status === "PENDING_PAYMENT" && (
-                            <button 
-                              type="button"
-                              onClick={(e) => { e.stopPropagation(); handlePayNow(r.id); }}
-                              className="relative z-50 px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition-all text-sm font-medium shadow-md shadow-blue-500/20 cursor-pointer"
+                            <button onClick={() => handlePayNow(r.id)}
+                              className="px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition-all text-sm font-medium shadow-md shadow-blue-500/20"
                             >
                               {language === "en" ? "Pay Now" : "Plătește acum"}
                             </button>
                           )}
-                          {r.status !== "CANCELLED" && !isFinished && (
+                          {r.status === "PENDING_PAYMENT" && (
                             <button 
-                              type="button"
                               onClick={() => cancelReservation(r.id)}
                               disabled={cancellingId === r.id}
-                              className="relative z-50 px-4 py-2 rounded-xl border-2 border-yellow-400 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all text-sm font-bold disabled:opacity-50 cursor-pointer"
+                              className="px-4 py-2 rounded-xl border border-red-300 dark:border-red-500/30 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all text-sm font-medium disabled:opacity-50"
                             >
-                              {cancellingId === r.id ? "..." : "FORCE CANCEL"}
+                              {cancellingId === r.id ? (language === "en" ? "Cancelling..." : "Anulare...") : t("res.cancel")}
                             </button>
                           )}
                           {isFinished && !r.review && (
@@ -284,7 +282,7 @@ export default function ReservationsPage() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
             </AnimatePresence>

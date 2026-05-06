@@ -25,6 +25,15 @@ export async function PATCH(
       return NextResponse.json({ error: "Acces neautorizat" }, { status: 403 });
     }
 
+    // New safety check: Only allow cancelling if status is PENDING_PAYMENT
+    // Admins can still cancel anything
+    if (user.role !== "ADMIN" && reservation.status === "CONFIRMED") {
+      return NextResponse.json(
+        { error: "Rezervările confirmate (plătite) nu pot fi anulate direct. Contactați administratorul." },
+        { status: 400 }
+      );
+    }
+
     await prisma.reservation.update({
       where: { id },
       data: { status: status || "CANCELLED" },

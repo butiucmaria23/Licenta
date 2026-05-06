@@ -61,11 +61,23 @@ export default function ReservationsPage() {
   };
 
   const cancelReservation = async (id: string) => {
-    if (!confirm(t("res.cancelConfirm"))) return;
+    if (!confirm(t("res.cancelConfirm") || "Sigur dorești să anulezi această rezervare?")) return;
     try {
-      await fetch(`/api/reservations/${id}`, { method: "DELETE", headers: { Authorization: `Bearer ${token}` } });
-      fetchReservations();
-    } catch { console.error("Error cancelling reservation"); }
+      const res = await fetch(`/api/reservations/${id}`, { 
+        method: "DELETE", 
+        headers: { Authorization: `Bearer ${token}` } 
+      });
+      
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Eroare la anularea rezervării");
+      }
+      
+      await fetchReservations();
+    } catch (err) { 
+      console.error("Error cancelling reservation:", err);
+      alert(err instanceof Error ? err.message : "Eroare la anularea rezervării");
+    }
   };
 
   const openReviewModal = (id: string) => {

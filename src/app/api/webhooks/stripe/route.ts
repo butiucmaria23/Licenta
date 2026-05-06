@@ -52,9 +52,4 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({ received: true });
 }
 
-// Disable body parsing for Stripe webhooks
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+

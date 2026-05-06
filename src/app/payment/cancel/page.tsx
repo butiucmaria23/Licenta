@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 
-export default function PaymentCancelPage() {
+function CancelContent() {
   const searchParams = useSearchParams();
   const reservationId = searchParams.get("reservation_id");
 
@@ -46,5 +46,13 @@ export default function PaymentCancelPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function PaymentCancelPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CancelContent />
+    </Suspense>
   );
 }

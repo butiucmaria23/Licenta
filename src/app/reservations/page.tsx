@@ -82,7 +82,8 @@ export default function ReservationsPage() {
         throw new Error(data.error || "Eroare la anularea rezervării");
       }
       
-      await fetchReservations();
+      // Force a hard refresh to be 100% sure the UI updates
+      window.location.reload();
     } catch (err) { 
       console.error("Error cancelling reservation:", err);
       alert(err instanceof Error ? err.message : "Eroare la anularea rezervării");

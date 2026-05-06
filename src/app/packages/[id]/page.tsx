@@ -117,7 +117,7 @@ export default function PackageDetailPage() {
                   {new Date(pkg.startDate).toLocaleDateString(locale, { day: "numeric", month: "short" })}
                 </div>
                 <div className="text-xs text-slate-500 mt-1">
-                  — {new Date(pkg.endDate).toLocaleDateString(locale, { day: "numeric", month: "short", year: "numeric" })}
+                  {new Date(pkg.endDate).toLocaleDateString(locale, { day: "numeric", month: "short", year: "numeric" })}
                 </div>
               </div>
             </div>

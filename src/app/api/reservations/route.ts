@@ -104,7 +104,7 @@ export async function POST(request: NextRequest) {
         packageId,
         numberOfPeople,
         totalPrice,
-        status: "CONFIRMED",
+        status: "PENDING_PAYMENT",
       },
       include: {
         package: { select: { title: true, destination: true } },

@@ -98,17 +98,36 @@ export default function ReservationsPage() {
     setReviewLoading(false);
   };
 
+  const handlePayNow = async (reservationId: string) => {
+    try {
+      const checkoutRes = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ reservationId }),
+      });
+      const checkoutData = await checkoutRes.json();
+      if (!checkoutRes.ok) throw new Error(checkoutData.error);
+      if (checkoutData.url) {
+        window.location.href = checkoutData.url;
+      }
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Eroare la procesarea plății");
+    }
+  };
+
   const locale = language === "ro" ? "ro-RO" : "en-US";
 
   const statusBadge = (status: string) => {
     const styles: Record<string, string> = {
       CONFIRMED: "bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20",
       PENDING:   "bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20",
+      PENDING_PAYMENT: "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20",
       CANCELLED: "bg-red-100 text-red-700 border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
     };
     const labels: Record<string, string> = {
       CONFIRMED: t("res.confirmed"),
       PENDING: t("res.pending"),
+      PENDING_PAYMENT: language === "en" ? "Pending Payment" : "Așteaptă plata",
       CANCELLED: t("res.cancelled"),
     };
     return (
@@ -211,6 +230,13 @@ export default function ReservationsPage() {
                           <div className="text-xs text-slate-500">{t("res.total")}</div>
                         </div>
                         <div className="flex flex-col gap-2">
+                          {r.status === "PENDING_PAYMENT" && (
+                            <button onClick={() => handlePayNow(r.id)}
+                              className="px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition-all text-sm font-medium shadow-md shadow-blue-500/20"
+                            >
+                              {language === "en" ? "Pay Now" : "Plătește acum"}
+                            </button>
+                          )}
                           {r.status !== "CANCELLED" && !isFinished && (
                             <button onClick={() => cancelReservation(r.id)}
                               className="px-4 py-2 rounded-xl border border-red-300 dark:border-red-500/30 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all text-sm font-medium"

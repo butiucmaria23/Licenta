@@ -42,11 +42,22 @@ model Reservation {
   packageId      String
   numberOfPeople Int
   totalPrice     Float
-  status         String   @default("CONFIRMED")
+  status         String   @default("PENDING_PAYMENT")
   createdAt      DateTime @default(now())
   user           User     @relation(fields: [userId], references: [id])
   package        Package  @relation(fields: [packageId], references: [id])
   review         Review?
+  payment        Payment?
+}
+
+model Payment {
+  id              String      @id @default(cuid())
+  reservationId   String      @unique
+  stripeSessionId String      @unique
+  amount          Float
+  status          String      // e.g., "COMPLETED", "FAILED"
+  createdAt       DateTime    @default(now())
+  reservation     Reservation @relation(fields: [reservationId], references: [id])
 }
 
 model Review {

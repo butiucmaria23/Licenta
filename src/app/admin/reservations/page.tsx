@@ -40,10 +40,14 @@ export default function AdminReservationsPage() {
   };
 
   const cancelReservation = async (id: string) => {
-    if (!confirm(t("res.cancelConfirm"))) return;
     try {
-      await fetch(`/api/reservations/${id}`, { method: "DELETE", headers: { Authorization: `Bearer ${token}` } });
-      fetchReservations();
+      const res = await fetch(`/api/reservations/${id}/cancel`, { 
+        method: "POST", 
+        headers: { Authorization: `Bearer ${token}` } 
+      });
+      if (res.ok) {
+        fetchReservations();
+      }
     } catch { console.error("Error cancelling reservation"); }
   };
 
@@ -142,7 +146,7 @@ export default function AdminReservationsPage() {
                       <td className="py-4 px-5 text-right">
                         {r.status !== "CANCELLED" && (
                           <button onClick={() => cancelReservation(r.id)}
-                            className="px-3 py-1.5 rounded-lg border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all text-xs font-medium"
+                            className="px-3 py-1.5 rounded-lg border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 active:scale-95 transition-all text-xs font-medium cursor-pointer"
                           >
                             {t("res.cancel")}
                           </button>

@@ -103,22 +103,20 @@ export default function PackageDetailPage() {
             {/* Info Cards */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
-                { icon: "", val: `€${pkg.price}`, label: t("pkg.perPerson"), cls: "text-emerald-600 dark:text-emerald-400" },
-                { icon: "", val: String(days), label: t("pkg.days"), cls: "text-cyan-600 dark:text-cyan-400" },
-                { icon: "", val: String(available), label: t("pkg.availableSlots"), cls: available > 5 ? "text-emerald-600 dark:text-emerald-400" : "text-amber-600 dark:text-amber-400" },
+                { val: `€${pkg.price}`, label: t("pkg.perPerson"), cls: "text-emerald-600 dark:text-emerald-400" },
+                { val: String(days), label: t("pkg.days"), cls: "text-cyan-600 dark:text-cyan-400" },
+                { val: String(available), label: t("pkg.availableSlots"), cls: available > 5 ? "text-emerald-600 dark:text-emerald-400" : "text-amber-600 dark:text-amber-400" },
               ].map((c, i) => (
-                <div key={i} className="bg-white dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-white/10 p-4 text-center shadow-sm dark:shadow-none">
-                  <div className="text-2xl mb-1">{c.icon}</div>
+                <div key={i} className="bg-white dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-white/10 p-4 text-center shadow-sm dark:shadow-none flex flex-col justify-center items-center min-h-[100px]">
                   <div className={`text-2xl font-bold ${c.cls}`}>{c.val}</div>
-                  <div className="text-xs text-slate-500">{c.label}</div>
+                  <div className="text-xs text-slate-500 mt-1">{c.label}</div>
                 </div>
               ))}
-              <div className="bg-white dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-white/10 p-4 text-center shadow-sm dark:shadow-none">
-                <div className="text-2xl mb-1">️</div>
+              <div className="bg-white dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-white/10 p-4 text-center shadow-sm dark:shadow-none flex flex-col justify-center items-center min-h-[100px]">
                 <div className="text-sm font-bold text-slate-900 dark:text-white">
                   {new Date(pkg.startDate).toLocaleDateString(locale, { day: "numeric", month: "short" })}
                 </div>
-                <div className="text-xs text-slate-500">
+                <div className="text-xs text-slate-500 mt-1">
                   — {new Date(pkg.endDate).toLocaleDateString(locale, { day: "numeric", month: "short", year: "numeric" })}
                 </div>
               </div>

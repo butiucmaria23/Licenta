@@ -67,13 +67,11 @@ export default function ReservationsPage() {
     
     setCancellingId(id);
     try {
-      const res = await fetch(`/api/reservations/${id}`, { 
-        method: "PATCH", 
+      const res = await fetch(`/api/reservations/${id}/cancel`, { 
+        method: "POST", 
         headers: { 
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}` 
-        },
-        body: JSON.stringify({ status: "CANCELLED" })
+        }
       });
       
       const data = await res.json();
@@ -82,8 +80,8 @@ export default function ReservationsPage() {
         throw new Error(data.error || "Eroare la anularea rezervării");
       }
       
-      // Force a hard refresh to be 100% sure the UI updates
-      window.location.reload();
+      // Success - instant refresh
+      await fetchReservations();
     } catch (err) { 
       console.error("Error cancelling reservation:", err);
       alert(err instanceof Error ? err.message : "Eroare la anularea rezervării");
